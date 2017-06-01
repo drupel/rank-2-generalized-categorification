@@ -1,0 +1,245 @@
+\documentclass{amsart}
+\usepackage{amsbsy,amsmath,amssymb,latexsym,color}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{hyperref}
+\usepackage{xy}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+\usepackage[draft]{say}
+\newcommand{\sayDR}[1]{\say[DR]{\color{violet}{\bf DR:}\;#1}}
+\newcommand{\sayGT}[1]{\say[GT]{\color{blue}{\bf GT:}\;#1}}
+\newcommand{\sayKI}[1]{\say[KI]{\color{red}{\bf KI:}\;#1}}
+
+\input xy
+\xyoption{all}
+
+\newcommand{\margin}[1]{\marginpar{\tiny #1}}
+
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+
+
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{question}[theorem]{Question}
+
+
+
+\def\CC{\mathbb{C}}
+\def\FF{\mathbb{F}}
+\def\JJ{\mathbb{J}}
+\def\KK{\mathbb{K}}
+\def\QQ{\mathbb{Q}}
+\def\RR{\mathbb{R}}
+\def\SS{\mathbb{S}}
+\def\TT{\mathbb{T}}
+\def\ZZ{\mathbb{Z}}
+
+\def\bfd{\mathbf{d}}
+\def\bfe{\mathbf{e}}
+\def\ubfe{{\underline{\mathbf{e}}}}
+\def\bff{\mathbf{f}}
+\def\bfj{\mathbf{j}}
+\def\bfk{\mathbf{k}}
+\def\bfl{{\ensuremath{\boldsymbol\ell}}}
+\def\bfM{\mathbf{M}}
+\def\bfm{\mathbf{m}}
+\def\bfN{\mathbf{N}}
+\def\bfn{\mathbf{n}}
+\def\bfp{\mathbf{p}}
+\def\bfq{\mathbf{q}}
+\def\bfr{\mathbf{r}}
+\def\bfs{\mathbf{s}}
+\def\bfV{\mathbf{V}}
+\def\bfv{\mathbf{v}}
+\def\bfX{\mathbf{X}}
+\def\bfx{\mathbf{x}}
+
+\def\cA{\mathcal{A}}
+\def\cC{\mathcal{C}}
+\def\cF{\mathcal{F}}
+\def\cG{\mathcal{G}}
+\def\cI{\mathcal{I}}
+\def\cJ{\mathcal{J}}
+\def\cK{\mathcal{K}}
+\def\cP{\mathcal{P}}
+\def\cQ{\mathcal{Q}}
+\def\cR{\mathcal{R}}
+\def\cS{\mathcal{S}}
+\def\cT{\mathcal{T}}
+\def\cX{\mathcal{X}}
+
+\def\fJ{\mathfrak{J}}
+
+
+\def\kk{\Bbbk}
+
+\def\dim{\operatorname{dim}}
+\def\injdim{\operatorname{inj.dim}}
+\def\projdim{\operatorname{proj.dim}}
+\def\frank{\operatorname{frank}}
+\def\rank{\operatorname{rank}}
+\def\wdim{\operatorname{wdim}}
+\def\udim{\underline{\operatorname{dim}}}
+\def\uiso{\underline{\operatorname{iso}}}
+\def\urank{\underline{\operatorname{rank}}}
+\def\uwdim{\underline{\operatorname{wdim}}}
+\def\mod{\operatorname{mod}}
+\def\gcd{\operatorname{gcd}}
+\def\Hom{\operatorname{Hom}}
+\def\im{\operatorname{im}}
+\def\IHom{\operatorname{InjHom}}
+\def\Ext{\operatorname{Ext}}
+\def\rep{\operatorname{rep}}
+\def\soc{\operatorname{soc}}
+\def\coker{\operatorname{coker}}
+\newcommand{\partition}{\vdash}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\onto}{\to\!\!\!\!\!\to}
+\newcommand{\from}{\leftarrow}
+\newcommand{\rev}[1]{\overline{#1}}%{{#1}^\dagger}
+\newcommand{\Vect}{\text{Vect}}
+
+\def\half{\frac{1}{2}}
+
+\renewcommand{\eqref}[1]{{\rm (\ref{#1})}}
+\newcommand{\rem}[1]{\left\langle#1\right\rangle}
+
+\newcommand{\erase}[1]{{}}
+\newcommand{\comment}[1]{{\marginpar{\LARGE}\bf(COMMENT: #1)}}
+\newcommand{\shortnote}[1]{\fcolorbox{black}{yellow}{\color{black} #1}}
+
+\title{Categorification of Rank 2 Generalized Cluster Algebras}
+
+
+\begin{document}
+
+% subsection
+
+%\newpage
+%-----------------------------------------------------------------------------------
+%            sub section Filtered Hom
+%-----------------------------------------------------------------------------------
+
+\subsection{filtered morphisms}
+
+We introduce the notion of filtered morphisms and use them to compute the dimensions of Grassmannians at vertices and quiver Grassmannians. We go first to the case of $Gr_\bfk(\JJ_d^n)$.
+
+Let $K,L$ be $\JJ_d$ modules of type $\bfk=k_1\beta_1+\cdots+k_d\beta_d$ and $\ell=\ell_1\beta_1+\cdots+\ell_d\beta_d$. Then 
+\[
+\Hom_{\JJ_d}(K,L)=\bigoplus_{i,j}\Hom_{\JJ_d}(\JJ_i^{k_i},\JJ_j^{\ell_j})
+\]
+with dimension $\sum_{i,j} k_i\ell_j\min(i,j)$. Since
+\[
+	Gr_\bfk(\JJ_d^n)=\IHom_{\JJ_d}(K,\JJ_d^n)/\IHom_{\JJ_d}(K,K),
+\]
+the tangent bundle of $Gr_\bfk(\JJ_d^n)$ at $K$ is 
+\[
+T_KGr_\bfk(\JJ_d^n)=\Hom_{\JJ_d}(K,\JJ_d^n)/\Hom_{\JJ_d}(K,K).
+\]
+Thus, we have:
+\[
+	\dim Gr_\bfk(\JJ_d^n)=\sum_i nik_i -\sum_{i,j}k_ik_j\min(i,j)
+\]
+
+\begin{definition}
+By an \emph{admissible filtration} of a $\JJ_d$-module $L$, we mean a filtration $0=F_0L\subseteq F_1L\subseteq \cdots\subseteq F_dL=L$ so that $tF_kL\subseteq F_{k-1}L$ for each $k$. We usually use the \emph{socle filtration}: $F_{k+1}L/F_{k}L=soc (L/F_{k}L)$. For any epimorphism $f:M\to L$ and any admissible filtration of $M$, the \emph{coinduced filtration} of $L$ is given by $F_kL=f(F_kM)$. A short exact sequence $A\to B\to C$ will be called \emph{filtered exact} if $F_kA\to F_kB\to F_kC$ is exact for all $k$.
+\end{definition}
+
+It is easy to see that, for any monomorphism $f:A\to B$, the filtration on $A$ induced from the socle filtration of $B$ by $F_kA=f^{-1}(F_kB)$ coincides with the socle filtration of $A$.
+
+\begin{definition}
+By a \emph{filtered homomorphism} between filtered $\JJ_d$-modules we mean a homomorphism $f:M\to L$ so that $f(F_kM)\subset F_kL$ for all $k$. We denote the set of such homomorphisms by $F_\cdot \Hom(M,L)$.
+\end{definition}
+
+\begin{lemma}
+Let $A\to B\to C$ be filtered exact and let $M$ be given the socle filtration. Then
+\[
+	0\to F_\cdot\Hom(M,A)\to F_\cdot\Hom(M,B)\to F_\cdot\Hom(M,C)\to0
+\]
+is exact.
+\end{lemma}
+
+\begin{proof}
+This follows from the observation that $F_\cdot \Hom(\JJ_k,X)=F_kX$.
+\end{proof}
+
+\begin{lemma}
+Let $K$ be a $\JJ_d$-submodule of $L$ of type $\bfk$. Then the tangent space to $Gr_\bfk(M)$ at $K$ is isomorphic to $F_\cdot \Hom_{\JJ_d}(K,M/K)$ where $M/K$ is given the filtration coinduced by the socle filtration of $M$.
+\end{lemma}
+
+\begin{proof}
+Since $Gr_\bfk(M)=\IHom(K,M)/\IHom(K,K)$, its tangent space if the cokernel of $\Hom(K,K)\to \Hom(K,M)$ which is $F_\cdot\Hom(K,M/K)$ by the previous lemma.
+\end{proof}
+
+\begin{theorem}
+Let $M$ be a $\JJ_d$-representation of the quiver $Q$ and let $U$ be a subrepresentation of $M$ with dimension vector $\bfe$. Then
+\[
+	T_UGr_\bfe (M)=F_\cdot \Hom_{\JJ_dQ}(U,M/U)
+\]
+\end{theorem}
+
+\begin{proof}
+$Gr_\bfe(M)$ is the subspace of $\prod_i Gr_{e_i}(M_i)$ consisting of $n$-tuples $(U_i\subseteq M_i)_i$, where $U_i$ has type $e_i$, so that each $M_\alpha:M_i\to M_j$ sends $U_i$ into $U_j$. So, the tangent space at $U$ is the subspace of 
+\[
+	\prod_i T_{U_i}Gr_{e_i}(M_i)=\prod_i F_\cdot\Hom_{\JJ_d}(U_i,M_i/U_i)
+\]
+consisting of $n$-tuples of filtered morphisms $(C_i:U_i\to M_i/U_i)$ so that, for any family of $\JJ_d$-liftings $\widetilde C_i:U_i\to M_i$ of $C_i$ to $M_i$, the following diagram commutes, modulo $\varepsilon^2$, for some $K$-linear map $\zeta:U_i\to U_j$:
+\[
+%\xymatrixrowsep{10pt}
+\xymatrixcolsep{40pt}
+\xymatrix{%begin xy matrix
+U_i\ar[d]_{U_\alpha+\varepsilon \zeta_\alpha}\ar[r]^{f_i+\varepsilon \widetilde C_i} &
+	M_i\ar[d]^{M_\alpha}\\
+U_j \ar[r]^{f_j+\varepsilon \widetilde C_j}& 
+	M_j
+	}%end xy matrix
+\]
+In other words, 
+\begin{equation}\label{eq: deformation of U in M}
+M_\alpha\widetilde C_i=\widetilde C_jU_\alpha+f_j\zeta_\alpha
+\end{equation}
+\underline{Claim:} This condition is equivalent to the condition:
+\begin{equation}\label{eq: equivalent eq for U in M}
+N_\alpha C_i= C_jU_\alpha :
+%\xymatrixrowsep{10pt}\xymatrixcolsep{10pt}
+\xymatrix{%begin xy matrix
+U_i\ar[d]_{U_\alpha}\ar[r]^(.4){ C_i} &
+	M_i/U_i\ar[d]^{N_\alpha}\\
+U_j \ar[r]^(.4){ C_j}& 
+	M_j/U_j
+	}%end xy matrix
+\end{equation}
+Proof: ($\Rightarrow$) Let $p_i:M_i\to M_i/U_i$. Then $C_i=p_i \widetilde C_i$ and $p_j f_j=0$. So,
+\[
+	N_\alpha C_i=N_\alpha p_i\widetilde C_i=p_jM_\alpha\widetilde C_i=p_j\widetilde C_jU_\alpha+0=C_jU_\alpha
+\]
+($\Leftarrow$) Given \eqref{eq: equivalent eq for U in M}, let $(\widetilde C_i:U_i\to M_i)_i$ be any collection of liftings given by the fact that $\Hom_{\JJ_d}(U_i,M_i)\to F_\cdot\Hom_{\JJ_d}(U_i,M_i/U_i)$ is surjective. Choose any vector space basis $\{x_k\}$ for $U_i$. Then 
+\[
+	N_\alpha\widetilde C_i(x_k)-\widetilde C_jU_\alpha(x_k)\in \ker p_j
+\]
+Since $\ker p_j=\im f_j$, there exist $y_k\in C_k$ so that $f_j(y_k)=N_\alpha\widetilde C_i(x_k)-\widetilde C_jU_\alpha(x_k)$. Let $\zeta(x_k)=y_k$. This defines a linear map $\zeta_\alpha:U_i\to U_j$. Then,
+\[
+	N_\alpha\widetilde C_i(x_k)-\widetilde C_jU_\alpha(x_k)=f_j\zeta_\alpha(x_k)
+\]
+Since this is true for all $x_k$, we obtain \eqref{eq: deformation of U in M}. This completes the proof of the claim. The theorem follows.
+\end{proof}
+
+%\newpage\section{Copy}
+%\input{FilteredHom}
+
+
+\end{document}

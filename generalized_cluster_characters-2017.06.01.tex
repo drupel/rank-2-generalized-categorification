@@ -1,0 +1,1057 @@
+\documentclass{amsart}
+\usepackage{amsbsy,amsmath,amssymb,latexsym,color}
+\usepackage[margin=1.5in]{geometry}
+\usepackage{hyperref}
+\usepackage{xy}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+\usepackage[draft]{say}
+\newcommand{\sayDR}[1]{\say[DR]{\color{violet}{\bf DR:}\;#1}}
+\newcommand{\sayGT}[1]{\say[GT]{\color{blue}{\bf GT:}\;#1}}
+\newcommand{\sayKI}[1]{\say[KI]{\color{red}{\bf KI:}\;#1}}
+
+\input xy
+\xyoption{all}
+
+\newcommand{\margin}[1]{\marginpar{\tiny #1}}
+
+
+\numberwithin{equation}{section}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}[theorem]{Problem}
+
+
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{question}[theorem]{Question}
+
+
+
+\def\CC{\mathbb{C}}
+\def\FF{\mathbb{F}}
+\def\JJ{\mathbb{J}}
+\def\KK{\mathbb{K}}
+\def\QQ{\mathbb{Q}}
+\def\RR{\mathbb{R}}
+\def\SS{\mathbb{S}}
+\def\TT{\mathbb{T}}
+\def\ZZ{\mathbb{Z}}
+
+\def\bfd{\mathbf{d}}
+\def\bfe{\mathbf{e}}
+\def\ubfe{{\underline{\mathbf{e}}}}
+\def\bff{\mathbf{f}}
+\def\bfj{\mathbf{j}}
+\def\bfk{\mathbf{k}}
+\def\bfl{{\ensuremath{\boldsymbol\ell}}}
+\def\bfM{\mathbf{M}}
+\def\bfm{\mathbf{m}}
+\def\bfN{\mathbf{N}}
+\def\bfn{\mathbf{n}}
+\def\bfp{\mathbf{p}}
+\def\bfq{\mathbf{q}}
+\def\bfr{\mathbf{r}}
+\def\bfs{\mathbf{s}}
+\def\bfV{\mathbf{V}}
+\def\bfv{\mathbf{v}}
+\def\bfX{\mathbf{X}}
+\def\bfx{\mathbf{x}}
+
+\def\cA{\mathcal{A}}
+\def\cC{\mathcal{C}}
+\def\cF{\mathcal{F}}
+\def\cG{\mathcal{G}}
+\def\cI{\mathcal{I}}
+\def\cJ{\mathcal{J}}
+\def\cK{\mathcal{K}}
+\def\cP{\mathcal{P}}
+\def\cQ{\mathcal{Q}}
+\def\cR{\mathcal{R}}
+\def\cS{\mathcal{S}}
+\def\cT{\mathcal{T}}
+\def\cX{\mathcal{X}}
+
+\def\fJ{\mathfrak{J}}
+
+
+\def\kk{\Bbbk}
+
+\def\dim{\operatorname{dim}}
+\def\injdim{\operatorname{inj.dim}}
+\def\projdim{\operatorname{proj.dim}}
+\def\frank{\operatorname{frank}}
+\def\rank{\operatorname{rank}}
+\def\wdim{\operatorname{wdim}}
+\def\udim{\underline{\operatorname{dim}}}
+\def\uiso{\underline{\operatorname{iso}}}
+\def\urank{\underline{\operatorname{rank}}}
+\def\uwdim{\underline{\operatorname{wdim}}}
+\def\mod{\operatorname{mod}}
+\def\gcd{\operatorname{gcd}}
+\def\Hom{\operatorname{Hom}}
+\def\im{\operatorname{im}}
+\def\IHom{\operatorname{InjHom}}
+\def\Ext{\operatorname{Ext}}
+\def\mod{\operatorname{mod}}
+\def\rep{\operatorname{rep}}
+\def\soc{\operatorname{soc}}
+\def\coker{\operatorname{coker}}
+\newcommand{\partition}{\vdash}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\onto}{\to\!\!\!\!\!\to}
+\newcommand{\from}{\leftarrow}
+\newcommand{\rev}[1]{\overline{#1}}%{{#1}^\dagger}
+\newcommand{\Vect}{\text{Vect}}
+
+\def\half{\frac{1}{2}}
+
+\renewcommand{\eqref}[1]{{\rm (\ref{#1})}}
+\newcommand{\rem}[1]{\left\langle#1\right\rangle}
+
+\newcommand{\erase}[1]{{}}
+\newcommand{\comment}[1]{{\marginpar{\LARGE}\bf(COMMENT: #1)}}
+\newcommand{\shortnote}[1]{\fcolorbox{black}{yellow}{\color{black} #1}}
+
+\title{Categorification of Rank 2 Generalized Cluster Algebras}
+
+\author{Kiyoshi Igusa}
+\address{\noindent Department of Mathematics, Brandeis University,
+ Waltham, MA 02454}
+\email{igusa@brandeis.edu}
+
+\author{Dylan Rupel}
+\address{\noindent Department of Mathematics, University of Notre Dame,
+ Notre Dame, IN 46556}
+\email{drupel@nd.edu}
+
+\author{Gordana Todorov}
+\address{\noindent Department of Mathematics, Northeastern University,
+ Boston, MA 02115}
+\email{g.todorov@neu.edu}
+
+\date{\today}
+
+\begin{document}
+\begin{abstract}
+  We categorify rank 2 generalized cluster algebra recursions using representations of quivers with two vertices and a nilpotent loop at each vertex.
+\end{abstract}
+ 
+\maketitle
+
+\section{Introduction}
+
+Cluster algebras are commutative rings introduced by Fomin and Zelevinsky \cite{fomin-zelevinsky1} as a combinatorial model for various phenomena appearing in their study of total positivity and dual canonical bases \cite{fomin-zelevinsky0}.  
+Since their initial discovery, cluster algebras have found applications throughout mathematics, including such disparate areas as hyperbolic geometry \cite{fomin-shapiro-thurston}, integrable systems and Poisson geometry \cite{gekhtman-shapiro-vainshtein}, and the representation theory of associative algebras \cite{caldero-chapoton,bmrrt,caldero-keller}.  
+In the last of these, the binomial exchange relations in a cluster algebra, as well as the resulting Laurent polynomial expressions for cluster variables, gain a conceptual interpretation in terms of the tilting theory for a certain category of representations of a quiver.
+
+More recently, examples have emerged that require a more general setup in which the binomial exchange relations must be replaced by polynomial exchange relations \cite{chekhov-shapiro,gekhtman-shapiro-vainshtein2,iwaki-nakanishi}.  
+The goal of this note is to initiate a study of the categorification of these generalized cluster algebras and provide a quiver representation theoretic interpretation for the Laurent polynomial expressions for non-initial generalized cluster variables.
+
+We begin our investigations in the rank 2 setting.  
+For simplicity of exposition in the introduction we assume here that all intermediate exchange coefficients are equal to 1.  
+With these assumptions the generalized cluster algebra takes on a particularly simple form.  Consider integers $d_1,d_2>0$ and define rational functions $x_k\in\QQ(x_1,x_2)$ recursively by
+\begin{equation}\label{eq:exchange relation}
+  x_{k-1}x_{k+1}=\begin{cases}1+x_k+x_k^2+\cdots+x_k^{d_1} & \text{if $k$ is even;}\\1+x_k+x_k^2+\cdots+x_k^{d_2} & \text{if $k$ is odd.}\end{cases}
+\end{equation}
+The \emph{generalized cluster algebra} $\cA(d_1,d_2)\subset\QQ(x_1,x_2)$ is the $\ZZ$-subalgebra generated by all \emph{generalized cluster variables} $x_k$.
+While these functions, a priori, appear to be mere rational functions, the following remarkable theorem of Chekhov and Shapiro, which builds on prior work of Fomin and Zelevinsky in the case of cluster algebras, shows that the generalized cluster variables $x_k$ are actually Laurent polynomials.
+\begin{theorem}\cite{fomin-zelevinsky1,chekhov-shapiro}
+  For any $k,m\in\ZZ$, we have $x_k\in\ZZ[x_m^{\pm1},x_{m+1}^{\pm1}]$.
+\end{theorem}
+The main goal in this note is to provide a representation theoretic interpretation of the Laurent polynomial expressions for all $x_k\in\ZZ[x_1^{\pm1},x_2^{\pm1}]$ for $k\ne 1,2$.
+
+\erase{
+Let $Q$ be the quiver with vertices $Q_0=\{1,2\}$, a single arrow $2\stackrel{a}\longrightarrow1$, and a loop $i\stackrel{t_i}{\longrightarrow}i$ which is nilpotent of order $d_i$ for $i=1,2$.
+Fix a field $\FF$.  
+Then $\FF$-representations of $Q$ can be identified with modules over a certain species.   
+Define algebras $\JJ_{d_i}=\FF[t]/(t^{d_i})$ for $i=1,2$ and set ${}_1M_2=\JJ_{d_1}\otimes_\FF\JJ_{d_2}$, thought of as a $\JJ_{d_1}\times\JJ_{d_2}$-bimodule where the left action of $\JJ_{d_2}$ and the right action of $\JJ_{d_1}$ are zero.
+The vector space $\JJ_{d_1}\oplus\JJ_{d_2}\oplus{}_1M_2$, denoted $\tilde\JJ$, has a natural multiplication given by thinking of it as the tensor algebra of ${}_1M_2$ over $\JJ_{d_1}\times\JJ_{d_2}$.  
+More precisely, the multiplication on $\tilde\JJ$ is given as follows:
+\begin{itemize}
+  \item $\JJ_{d_1}$ and $\JJ_{d_2}$ are orthogonal;
+  \item left (resp. right) multiplication by $\JJ_{d_i}$ on ${}_1M_2$ gives zero for $i=2$ (resp. $i=1$) and is the natural action on the $\JJ_{d_1}$-$\JJ_{d_2}$-bimodule ${}_1M_2$ otherwise;
+  \item ${}_1M_2$ squares to zero.
+\end{itemize}}
+Fix a field $\FF$.
+Define algebras $\JJ_{d_i}=\FF[t]/(t^{d_i})$ for $i=1,2$ and set ${}_1M_2=\JJ_{d_1}\otimes_\FF\JJ_{d_2}$ thought of as a $\JJ_{d_1}$-$\JJ_{d_2}$-bimodule.
+Let $\tilde\JJ$ denote the matrix algebra
+\[\tilde\JJ:=\left(\begin{array}{cc} \JJ_{d_1} & {}_1M_2\\ 0 & \JJ_{d_2}\end{array}\right)=\left(\begin{array}{cc} \JJ_{d_1} & \JJ_{d_1}\otimes_\FF\JJ_{d_2}\\ 0 & \JJ_{d_2}\end{array}\right).\]
+Then a module $V=(V_1,V_2,V_a)$ over $\tilde\JJ$ consists of $\JJ_{d_i}$-modules $V_i$ for $i=1,2$ and a $\JJ_{d_1}$-module morphism $V_a:{}_1M_2\otimes_{\JJ_{d_2}} V_2\to V_1$.
+
+With this language we are able to concisely describe a categorification of rank 2 generalized cluster algebras.  
+For a $\tilde\JJ$-module $V$, we write $\urank V=(\rank V_1,\rank V_2)$ for the \emph{rank vector} of $V$, here $\rank V_i$ is the number of indecomposable summands of $V_i$.
+A $\tilde\JJ$-module $V$ is \emph{locally free} if $V_i$ is a free $\JJ_{d_i}$-module for $i=1,2$.
+We call a $\tilde\JJ$-module \emph{preprojective} if it is annihilated by some power of the Auslander-Reiten translation $\tau:\tilde\JJ-\mod\to\tilde\JJ-\mod$ and \emph{preinjective} if it is annihilated by a power of the inverse Auslander-Reiten translation $\tau^{-1}$.   
+
+Define two-parameter Chebyshev polynomials $u_{k,j}$ for $k,j\in\ZZ$ by the recursion
+\[u_{0,j}=0,\quad u_{1,j}=1,\quad u_{k+1,j+1}=d_ju_{k,j}-u_{k-1,j-1},\text{ where } d_j=\begin{cases}d_1 & \text{if $j$ is odd;}\\ d_2 & \text{if $j$ is even.}\end{cases}\]
+For $m\ge1$, denote by $P_m$ (resp. $I_m$) the unique (up to isomorphism) locally free preprojective (resp. preinjective) $\tilde\JJ$-module with rank vector $(u_{m,1},u_{m-1,2})$ (resp. $(u_{m-1,1},u_{m,2})$). 
+
+Let $V$ be an admissible $\tilde\JJ$-module compatible with a pair of framings $V_\bullet=(V_{1,\bullet},V_{2,\bullet})$, see sections~\ref{sec:framings} and \ref{sec: quiver framings}.  
+Write $Gr_{k_1,k_2}(V,V_\bullet)$ for the Grassmannian of $\tilde\JJ$-submodules in $V$ of dimension vector $(k_1,k_2)$ which are admissible with respect to the framing $V_\bullet$.
+Define the generalized cluster character of $V$ by
+\[x_V=\sum\limits_{k_1,k_2\ge0} \chi\big(Gr_{k_1,k_2}(V,V_\bullet)\big) x_1^{-\frank V_1+k_2}x_2^{-\frank V_2+\dim V_1-k_1}.\]
+Then we have the following categorification for rank 2 generalized cluster algebras.
+\begin{theorem}\label{th:main}
+  For $m\ge1$ we have $x_{m+2}=x_{P_m}$ and $x_{1-m}=x_{I_m}$.
+\end{theorem}
+
+
+\section{Framed Jet Modules}
+Let $\FF$ be a field.  For each $d\ge0$, denote by $\JJ_d$ the truncated polynomial ring $\FF[t]/(t^d)$ of dimension $d$, in particular it will be convenient to let $\JJ_0$ denote the trivial (i.e.\ 0-dimensional) vector space over $\FF$.  We call $\JJ_d$ the algebra of \emph{jets of order $d-1$}.  Note that for each $d\ge1$, there is a natural projection $p_d:\JJ_d\to\JJ_{d-1}$ and a natural injection $t_{d-1}:\JJ_{d-1}\to\JJ_d$ which satisfy the relations $t_{d-1}p_d=p_{d+1}t_d$.  Usually we drop the subscripts and simply write $p$ and $t$ for the projection and injection respectively, this should not lead to any confusion.  
+
+We begin with a recollection of basic facts about the abelian category $\JJ_d$-$\mod$ of finite-dimensional \emph{jet modules}.  Using $p^{d-i}$ we obtain a $\JJ_d$-module structure on $\JJ_i$ for $0\le i\le d$ while $t^{d-i}$ identifies $\JJ_i$ as a $\JJ_d$-submodule of the rank one free module $\JJ_d$.  Note that 
+\begin{equation}\label{eq:hom and ext}
+  \dim_\FF\Hom_{\JJ_d}(\JJ_i,\JJ_j)=\min(i,j)\quad\text{ and }\quad\dim_\FF\Ext_{\JJ_d}(\JJ_i,\JJ_j)=\min(i,j,d-i,d-j).
+\end{equation}
+It is a standard fact of linear algebra that up to isomorphism the $\JJ_d$-modules $\JJ_i$ ($1\le i\le d$) give a complete collection of indecomposable finite-dimensional $\JJ_d$-modules.  For $0\le i\le d$, we will write $\beta_i$ for the class of $\JJ_i$ in the split Grothendieck group $\cK(\JJ_d)\cong\ZZ^d$ of the category $\JJ_d$-$\mod$ (here we take $\beta_0=0)$.  For $\bfe,\bff\in\cK(\JJ_d)$, write $\bfe\le\bff$ if $e_i\le f_i$ for all $i$, where $\bfe=\sum e_i\beta_i$ and $\bff=\sum f_i\beta_i$.
+
+The forgetful functor $\JJ_d$-$\mod\to\Vect_\FF$ induces a $\ZZ$-linear map 
+\[\dim:\cK(\JJ_d)\to\cK(\Vect_\FF)\simeq\ZZ\]
+given on generators by $\dim(\beta_i)=i$ for $1\le i\le d$.  We will also consider the $\ZZ$-linear map 
+\[\rank:\cK(\JJ_d)\to\ZZ\]
+which on a $\JJ_d$-module $V$ gives the number of indecomposable summands, the map $\rank$ is given on generators by $\rank(\beta_i)=1$ for $1\le i\le d$.  
+\begin{lemma}\label{le:ranks and quotients}
+  Let $K$, $R$, and $S$ be $\JJ_d$-modules with $K$ a free $\JJ_d$-module, $S\subset K$, and $R\cong K/S$.  Then $K\cong R\oplus S$ if and only if $\rank(K)=\rank(R)+\rank(S)$.
+\end{lemma}
+\begin{proof}
+  It suffices to prove the reverse implication as the forward direction is immediate.  
+  Suppose $\rank(K)=\rank(R)+\rank(S)$.  
+  If $K\not\cong R\oplus S$, then there exist summands $\JJ_i\subset R$, $\JJ_{d-i}\subset S$, and $\JJ_d\subset K$ so that the sequence $0\to\JJ_{d-i}\to\JJ_d\to\JJ_i\to0$ splits off from the sequence $0\to S\to K\to R\to 0$.
+  But then 
+  \[\rank(K)=\rank(K/\JJ_d)+1,\quad\rank(R)=\rank(R/\JJ_i)+1,\quad\rank(S)=\rank(S/\JJ_{d-i})+1,\]
+  so that $\rank(K/\JJ_d)>\rank(R/\JJ_i)+\rank(S/\JJ_{d-i})$ which is impossible.  Thus we must have $K\cong R\oplus S$.
+\end{proof}
+Denote by 
+\[\frank:\cK(\JJ_d)\to\ZZ\]
+the $\ZZ$-linear map which computes the free-rank of a module, i.e.\ on generators we have $\frank(\beta_i)=\delta_{id}$.  The next lemma records the interaction of the maps $\dim$, $\rank$, and $\frank$ with quotients of $\JJ_d$-modules.  For $\bfe=e_1\beta_1+\cdots+e_d\beta_d\in\cK(\JJ_d)$, define 
+\[\rev{\bfe}:=e_1\beta_{d-1}+\cdots+e_{d-1}\beta_1+e_d\beta_0=e_1\beta_{d-1}+\cdots+e_{d-1}\beta_1\]
+and note that $\rev{\rev{\bfe}}=\bfe-\frank(\bfe)\beta_d$.  For $\bfx,\bfe\in\cK(\JJ_d)$, write $\bfx/\bfe=\bfx-\rank(\bfe)\beta_d+\rev{\bfe}$ and observe that $\bfx/\bfx=0$ if and only if $\bfx\in\ZZ\beta_d$.  The following result exhibits the interaction of the quotient on $\cK(\JJ_d)$ with the various maps to $\ZZ$ presented above.
+\begin{lemma}\label{le:Grothendieck quotients}\mbox{}
+  \begin{enumerate}
+    \item Let $X$ be a free $\JJ_d$-module.  For any $\JJ_d$-submodule $E\subset X$, we have $[X/E]=[X]/[E]$.
+    \item For $\bfx,\bfe,\bfk\in\cK(\JJ_d)$, we have
+    \begin{enumerate}
+      \item $\dim(\bfx/\bfe)=\dim\bfx-\dim\bfe$;
+      \item $\rank(\bfx/\bfe)=\rank\bfx-\frank\bfe$;
+      \item $\frank(\bfx/\bfe)=\frank\bfx-\rank\bfe$;
+      \item $\rank(\rev{\bfe})=\rank\bfe-\frank\bfe$;
+      \item $\bfx/(\bfe+\bfk)=\bfx/\bfe-\rank(\bfk)\beta_d+\rev{\bfk}$;
+      \item for $\bfx\ge0$, $\bfx/(\bfx/\bfe)=\bfe$ if and only if $\bfx=\rank(\bfx)\beta_d$.
+    \end{enumerate}
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  To see (1), write $[E]=e_1\beta_1+\cdots+e_d\beta_d$ so that the sequence $0\to E\to X\to X/E\to 0$ splits as a direct sum of $e_i$ copies of the sequence $0\to\JJ_i\to\JJ_d\to\JJ_{d-i}\to0$ for $1\le i\le d$.  But then $X/E\cong e_{d-1}\JJ_1\oplus\cdots\oplus e_1\JJ_{d-1}+(\rank X-\rank E)\JJ_d$ and the result follows.
+
+  For (2), parts (b), (c), and (d) are immediate.  To see part (a), we compute
+  \[\dim(\bfx/\bfe)=\dim(\bfx)-\dim\big(\rank(\bfe)\beta_d\big)+\dim(\rev{\bfe})=\dim(\bfx)-d\rank(\bfe)+\sum_{i=1}^{d-1} e_i(d-i)=\dim(\bfx)-\dim(\bfe).\]
+  Part (e) follows from the additivity of the maps $\rank:\cK(\JJ_d)\to\ZZ$ and $\rev{\,\cdot\,}:\cK(\JJ_d)\to\cK(\JJ_d)$.
+  To see part (f), we compute
+  \begin{align*}
+    \bfx/(\bfx/\bfe)
+    &=\bfx-\rank(\bfx/\bfe)\beta_d+\rev{(\bfx/\bfe)}\\
+    &=\bfx-\rank(\bfx)\beta_d+\frank(\bfe)\beta_d+\rev{(\bfx-\rank(\bfe)\beta_d+\rev{\bfe})}\\
+    &=\bfx+\rev{\bfx}-\rank(\bfx)\beta_d+\frank(\bfe)\beta_d+\rev{\rev{\bfe}}\\
+    &=\bfx+\rev{\bfx}-\rank(\bfx)\beta_d+\bfe.
+  \end{align*}
+  But this is equal to $\bfe$ if and only if $\bfx+\rev{\bfx}=\rank(\bfx)\beta_d$.  For $\bfx\ge0$, this only occurs when $\bfx=\rank(\bfx)\beta_d$. 
+\end{proof}
+
+\subsection{Grassmannians}\label{sec:grassmannians}
+We now turn toward understanding the submodule structure of a $\JJ_d$-module $X$.  That is, we aim to understand the set $Gr_k^{\JJ_d}(X)\subset Gr_k^\FF(X)$ of all $\JJ_d$-submodules $K\subset X$ with $\dim_\FF K=k$.  Here $Gr_k^\FF(X)$ denotes the usual Grassmannian of $k$-dimensional subspaces of the $\FF$-vector space underlying $X$.
+\begin{lemma}\label{le:Grassmannian subvariety}
+  For any $\JJ_d$-module $X$, the subset $Gr_k^{\JJ_d}(X)$ is closed in $Gr_k^\FF(X)$.  In particular, $Gr_k^{\JJ_d}(X)$ is a projective algebraic variety.
+\end{lemma}
+\begin{proof}
+  Write $n=\dim X$.  Let $A$ be an $n\times k$ matrix of rank $k$ representing a point in $Gr_k^\FF(X)$.  Since $X$ is a $\JJ_d$-module, there is a nilpotent $n\times n$ matrix, which by slight abuse of notation we denote by $t$, such that $tX\subset X$.  Then the statement that $A$ represents a point in $Gr_k^{\JJ_d}(X)$ is equivalent to the statement that the $n\times 2k$ matrix $\tilde A=[A\ tA]$ has rank $k$.  But the last statement is equivalent to the vanishing of every $(k+1)\times(k+1)$ minor of $\tilde A$ involving the first $k$ columns.  Taking the cofactor expansion of these minors along the final column gives a system of homogeneous equations involving Pl\"ucker coordinates of $A$ that must be satisfied in each standard open chart on $Gr_k^\FF(X)$.  The result follows.
+\end{proof}
+
+It is well known that, for $\JJ_d$-modules $X$ and $Y$, the ordinary Grassmannian $Gr_k^\FF(X\oplus Y)$ will fiber over $\bigsqcup_{r+s=k} Gr_r^\FF(X)\times Gr_s^\FF(Y)$.  The same is basically true for Grassmannians of $\JJ_d$-submodules, however the fibers are no longer uniform over each component $Gr_r^\FF(X)\times Gr_s^\FF(Y)$ of the base.  It will be important for us to have a careful understanding of this phenomenon, especially to understand those subsets of the base over which the fibers are well-behaved.
+
+Let $X$ and $Y$ be finite-dimensional $\JJ_d$-modules and write $\pi_Y:X\oplus Y\to X$ for the projection along $Y$ and $\pi_X:X\oplus Y\to Y$ for the projection along $X$.  We begin by studying the map 
+\[\tilde\pi:Gr_k^{\JJ_d}(X\oplus Y)\to\bigsqcup_{r+s=k} Gr_r^{\JJ_d}(X)\times Gr_s^{\JJ_d}(Y),\quad K\mapsto \big(\pi_Y(K),K\cap Y\big).\]  
+
+We claim that the map $\tilde\pi$ is surjective.  Indeed, for any $(R,S)$ in the base and a map $f\in\Hom_{\JJ_d}(R,Y/S)$, we may form the pullback $K_f=\{r+y:\pi_S(y)=f(r)\}$ inside $X\oplus Y$ in the diagram below:
+\begin{equation}\label{dia:pullback}
+  \xymatrix{0\ar[r]& S\ar[r]\ar@{=}[d]& K_f\ar[d]^{\pi_X}\ar[r]^{\pi_Y}\ar@{}[dr]|<{\lrcorner}& R\ar[d]^f\ar[r]& 0\\ 0\ar[r]& S\ar[r]& Y\ar[r]^{\pi_S}& Y/S\ar[r]& 0.}
+\end{equation}
+Then 
+\[K_f\cap Y=\{y:\pi_S(y)=f(0)=0\}=\ker(\pi_S)=S\]
+and every element of the form $f(r)\in Y/S$ is in the image of $\pi_S$ so that 
+\[\pi_Y(K_f)=R.\]
+Thus $K_f$ is in the fiber of $\tilde\pi$ over $(R,S)$.
+
+Next we claim that the fiber of $\tilde\pi$ over a point $(R,S)$ is exactly the affine space $\Hom_{\JJ_d}(R,Y/S)$.  Indeed, given $K\subset X\oplus Y$ with $\pi_Y(K)=R$ and $K\cap Y=S$, we may form the pushout in the diagram below to get a map $f_K\in\Hom_{\JJ_d}(R,Y/S)$:
+\begin{equation}\label{dia:pushout}
+  \xymatrix{0\ar[r]& S\ar[r]\ar@{=}[d]& K\ar[d]^{\pi_X}\ar[r]^{\pi_Y}\ar@{}[dr]|>{\ulcorner}& R\ar[d]^{f_K}\ar[r]& 0\\ 0\ar[r]& S\ar[r]& Y\ar[r]^{\pi_S}& Y/S\ar[r]& 0.}
+\end{equation}
+Since the sequence
+\[0\longrightarrow K\stackrel{\pi_X\oplus\pi_Y}{\longrightarrow} Y\oplus R\stackrel{\pi_S-f_K}{\longrightarrow} Y/S\longrightarrow 0\]
+is exact, the right hand square of \eqref{dia:pushout} is also a pullback.  Similarly, the right hand square of \eqref{dia:pullback} is also a pushout and thus there is a bijection $K\mapsto f_K$ from the fiber of $\tilde\pi$ over $(R,S)$ to $\Hom_{\JJ_d}(R,Y/S)$.
+
+\begin{remark}\label{rem:issues}
+  Though the fibers of the map $\tilde\pi$ appear to admit a reasonable description as affine spaces, the $\JJ_d$-modules $Y/S$ needed for this construction are not particularly well-behaved and thus dimensions of the fibers may jump somewhat erratically as $S$ varies inside $Gr_s^{\JJ_d}(Y)$.  Indeed, the isomorphism type of $Y/S$ will depend not only on the dimension of $S$ but also on its isomorphism type and on the precise way in which it embeds into $Y$.  Then \eqref{eq:hom and ext} can give different dimensions for the fibers.
+
+  For example, take $d=2$ and consider a submodule $\JJ_1\oplus\JJ_1\in Gr_2^{\JJ_2}(\JJ_2\oplus\JJ_2\oplus\JJ_1)$ which has one-dimensional intersection $S=\JJ_1$ with $Y=0\oplus\JJ_2\oplus\JJ_1$.  Then the fiber over $Gr_1^{\JJ_2}(\JJ_2)\times Gr_1^{\JJ_2}(\JJ_2\oplus\JJ_1)$ will either have dimension $1$ or $2$ depending on whether or not $S$ is a summand of $Y$.  For a submodule $\JJ_2\in Gr_2^{\JJ_2}(\JJ_2\oplus\JJ_2\oplus\JJ_1)$ which has one-dimensional intersection $S=\JJ_1$ with $Y=0\oplus\JJ_2\oplus\JJ_1$, the fiber over $Gr_1^{\JJ_2}(\JJ_2)\times Gr_1^{\JJ_2}(\JJ_2\oplus\JJ_1)$ will always have dimension $1$.
+\end{remark}
+
+Issues as in Remark~\ref{rem:issues} can be mitigated with a little extra data as follows.
+
+\subsection{Framings}\label{sec:framings}
+A flag of $\JJ_d$-submodules $X_\bullet=(0=X_m\subset X_{m-1}\subset\cdots\subset X_1\subset X_0=X)$ in $X$ is \emph{admissible} if $\rank(X_i/X_{i+1})=\rank X_i-\rank X_{i+1}$ for $0\le i\le m-1$.  An admissible flag $X_\bullet$ is \emph{complete} if each quotient $X_i/X_{i+1}$ is either indecomposable or $0$.  A flag $X_\bullet$ is \emph{singular} if there is an index $i$ for which $\rank(X_i/X_{i+1})=0$ and \emph{nonsingular} otherwise.  Each singular flag $X_\bullet$ uniquely determines a nonsingular flag $\overline{X}_\bullet$ obtained from $X_\bullet$ by omitting redundant terms.  Given a jet module $X$, a nonsingular complete admissible flag $X_\bullet$ in $X$ is called a \emph{framing} of $X$ and the pair $(X,X_\bullet)$ is referred to as a \emph{framed jet module}.
+
+Let $\cC_d$ be the category of framed jet modules.  Objects of $\cC_d$ are triples $(X,X_\bullet,I)$, where $X$ is a $\JJ_d$-module with complete admissible flag $X_\bullet$ (note this flag may be singular) with ordered index set $I$.  A morphism in $\cC_d$ from $(X,X_\bullet,I)$ to $(Y,Y_\bullet,J)$ is a pair $(f,\sigma)$, where $f:X\to Y$ is a morphism of $\JJ_d$-modules and $\sigma:I\to J$ is a weakly increasing map of index sets satisfying the following:
+\begin{itemize}
+  \item 
+\end{itemize}
+
+Let $X$ be a jet module and $X_\bullet$ a flag of $\JJ_d$-submodules in $X$.  For a $\JJ_d$-submodule $K\subset X$, write $K\cap X_\bullet$ for the flag $0=K\cap X_m\subset K\cap X_{m-1}\subset\cdots\subset K\cap X_1\subset K\cap X_0=K$.  We say the submodule $K\subset X$ satisfies the \emph{rank condition} with respect to the flag $X_\bullet$ if the induced flag $K\cap X_\bullet$ in $K$ is admissible.  For a surjective map of $\JJ_d$-modules $\pi:X\onto L$, write $\pi(X_\bullet)$ for the flag $0=\pi(X_m)\subset \pi(X_{m-1})\subset\cdots\subset \pi(X_1)\subset \pi(X_0)=L$.  We say the surjection $\pi$ satisfies the \emph{rank condition} with respect to the flag $X_\bullet$ if the induced flag $\pi(X_\bullet)$ in $L$ is admissible.
+
+\begin{lemma}\label{le:induced flags}
+  Let $X$ be a $\JJ_d$-module with a chosen admissible flag $X_\bullet$.  Let $K\subset X$ be a $\JJ_d$-submodule and $\pi:X\onto X/K$ the natural projection map.  Then $K$ satisfies the rank condition with respect to $X_\bullet$ if and only if $\pi$ satisfies the rank condition with respect to $X_\bullet$.  If these hold and $X_\bullet$ is complete, then the induced flags $K\cap X_\bullet$ and $\pi(X_\bullet)$ are also complete.
+\end{lemma}
+\begin{proof}
+  For each index $i$, we have the following commutative diagram of $\JJ_d$-modules, where we abbreviate $K_i=K\cap X_i$ and $K_{i+1}=K\cap X_{i+1}$:
+\[\begin{tikzcd}
+       & 0\arrow{d} &0\arrow{d}  & 0\arrow{d} &\ \\
+      0\arrow{r} & K_{i+1}\arrow[hook]{r}\arrow[hook]{d}\arrow[dr, phantom, "\lrcorner", very near start] & K_i\arrow[two heads]{r}\arrow[hook]{d} & K_i/K_{i+1}\arrow{r}\arrow["f"]{d} & 0 \\
+      0\arrow{r} & X_{i+1}\arrow[hook]{r}\arrow[two heads]{d} & X_i\arrow[two heads]{r}\arrow[two heads]{d} & X_i/X_{i+1}\arrow{r}\arrow[two heads, "g"]{d} & 0\\
+      0\arrow{r}& X_{i+1}/K_{i+1}\arrow{r}\arrow{d} & X_i/K_i\arrow{r}\arrow{d}& \coker f\arrow{r}\arrow{d}& 0\\
+       & 0 & 0 & 0 & 
+    \end{tikzcd}\]
+  Since the upper left square is a pullback, the induced map $f:K_i/K_{i+1}\to X_i/X_{i+1}$ is injective and hence the bottom row is exact by the $3\times 3$ Lemma.  
+
+  The admissibility of $X_\bullet$ is equivalent to the existence of a $\JJ_d$-module $X'_{i+1}$ such that $X_i\cong X_{i+1}\oplus X'_{i+1}$.  If $K$ satisfies the rank condition with respect to $X_\bullet$, there exists a $\JJ_d$-module $K'_{i+1}$ so that $K_i\cong K_{i+1}\oplus K'_{i+1}$.  This implies $\coker f\cong X'_{i+1}/K'_{i+1}$ and $X_i/K_i\cong X_{i+1}/K_{i+1}\oplus X'_{i+1}/K'_{i+1}$, i.e.\ $\pi(X_\bullet)$ is admissible and so $\pi:X\onto X/K$ satisfies the rank condition with respect to $X_\bullet$.  
+
+  On the other hand, if $\pi:X\onto X/K$ satisfies the rank condition with respect to $X_\bullet$, there is a $\JJ_d$-module isomorphism $X_i/K_i\cong X_{i+1}/K_{i+1}\oplus\coker f$.  But then $K_i\cong K_{i+1}\oplus\ker g$, i.e.\ $K\cap X_\bullet$ is admissible and so $K$ respects the flag condition with respect to $X_\bullet$.
+
+  To see the final claim, note that all submodules and quotient modules of an indecomposable $\JJ_d$-module are either zero or indecomposable themselves.
+\end{proof}
+\begin{remark}
+  Even if the complete admissible flag $X_\bullet$ is nonsingular, the induced flags $K\cap X_\bullet$ and $\pi(X_\bullet)$ may be singular.
+\end{remark}
+
+\erase{
+\begin{lemma}
+  Let $X$ be a $\JJ_d$-module and $X_\bullet$ a flag of $\JJ_d$-submodules.  Let $K\subset X$ satisfy the rank condition with respect to $X_\bullet$.
+  \begin{enumerate}
+    \item  If $L\subset K$ satisfies the rank condition with respect to $K\cap X_\bullet$, then $L$ satisfies the rank condition with respect to $X_\bullet$.
+    \item If $K,L\subset X$ both satisfy the rank condition with respect to $X_\bullet$ and $K\cap L=0$, then $K\oplus L$ satisfies the rank condition with respect to $X_\bullet$.
+    \item If $K\subset X$ and $K\oplus L\subset X$ satisfy the rank condition with respect to $X_\bullet$, then $(K\oplus L)/K\subset X/K$ satisfies the rank condition with respect to the induced flag $0=X_m/K\subset X_{m-1}/K\subset\cdots\subset X_1/K\subset X_0/K=X/K$.
+    \item Let $Y$ be a $\JJ_d$-module with flag of $\JJ_d$-submodules $Y_\bullet$ and $f:X\to Y$ a map of $\JJ_d$-modules for which $\ker f\subset X$ satisfies the rank condition with respect to $X_\bullet$ and $\im f\subset Y$ satisfies the rank condition with respect to $Y_\bullet$.  Given a $\JJ_d$-submodule $K\subset X$ which satisfies the rank condition with respect to $X_\bullet$, the submodule $\ker f|_K\subset X$ satisfies the rank condition with respect to $X_\bullet$ and $\im f|_K\subset Y$ satisfies the rank condition with respect to $Y_\bullet$. 
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  If $L\subset K$ satisfies the rank condition with respect to $K\cap X_\bullet$, then by definition $L\cap X_\bullet=L\cap K\cap X_\bullet$ is admissible, i.e. $L$ satisfies the rank condition with respect to $X_\bullet$.
+\end{proof}
+
+\begin{lemma}
+  Let $X$, $Y$, and $Z$ be $\JJ_d$-modules with framings $X_\bullet$, $Y_\bullet$, and $Z_\bullet$ respectively.  Let $f:X\to Y$ and $g:Y\to Z$ be $\JJ_d$-module morphisms.
+  \begin{enumerate}
+    \item If $X\onto \im f$ satisfies the rank condition with respect to $X_\bullet$ and $\im f\cap\ker g\subset Y$ satisfies the rank condition with respect to $Y_\bullet$, then $\ker(g\circ f)\subset X$ satisfies the rank condition with respect to $X_\bullet$.
+    \item If ..., then $Z\onto\coker(g\circ f)$ satisfies the rank condition with respect to $Z_\bullet$.
+  \end{enumerate}
+\end{lemma}
+
+Let $\cC_d$ be the category of \emph{framed jet modules} whose objects are triples $(X,X_\bullet,X_\oplus)$, where $X_\bullet$ is a framing of the $\JJ_d$-module $X$ and $X_\oplus=\{X_1,\cdots,X_n\}$ such that each $X_i\subset X$ satisfies the rank condition with respect to $X_\bullet$ and $X=X_1\oplus\cdots\oplus X_n$.  A morphism $f:(X,X_\bullet,X_\oplus)\to(Y,Y_\bullet,Y_\oplus)$ of $\cC_d$ is a $\JJ_d$-module map $f:X\to Y$ such that the following hold:
+\begin{itemize}
+  \item $\ker f\subset X$ satisfies the rank condition with respect to $X_\bullet$ and there exist indices $i_1,\ldots,i_r$ so that $\ker f=(\ker f\cap X_{i_1})\oplus\cdots\oplus(\ker f\cap X_{i_r})$;
+  \item $\im f\subset Y$ satisfies the rank condition with respect to $Y_\bullet$ and there exist indices $j_1,\ldots j_s$ so that $\im f=(\im f\cap Y_{j_1})\oplus\cdots\oplus(\im f\cap Y_{j_s})$, where $Y_\oplus=\{Y_1,\ldots,Y_m\}$.
+\end{itemize}}%end erase
+
+Let $X_\bullet$ be a framing of a $\JJ_d$-module $X$.  Write $Gr_k^{\JJ_d}(X,X_\bullet)$ for the set of $k$-dimensional $\JJ_d$-submodules $K\subset X$ which satisfy the rank condition with respect to $X_\bullet$.  Our first aim in this section is to prove the following result which is crucial for Theorem~\ref{th:main}.
+\begin{theorem}\label{th:flag grassmannian}
+  The set $Gr^{\JJ_d}_k(X,X_\bullet)$ is a constructible subset of $Gr^{\JJ_d}_k(X)$.
+\end{theorem}
+
+We establish this result in stages.  First, for $r\ge0$, define 
+\[Gr_{k,<r}^{\JJ_d}(X)=\{K\subset X:\dim K=k,\rank K<r\}\subset Gr_k^{\JJ_d}(X)\] 
+and set $Gr_{k,r}^{\JJ_d}(X)=\{K\subset X:\dim K=k,\rank K=r\}\subset Gr_{k,<r+1}^{\JJ_d}(X)$.
+\begin{lemma}\label{le:rank stratification}
+  For each $r\ge0$, $Gr_{k,<r}^{\JJ_d}(X)$ is open in $Gr_k^{\JJ_d}(X)$.  In particular, $Gr_{k,r}^{\JJ_d}(X)$ is a locally closed subspace of $Gr_k^{\JJ_d}(X)$.
+\end{lemma}
+\begin{proof}
+  We may alternatively describe $Gr_{k,<r}^{\JJ_d}(X)$ as the set of all $\JJ_d$-submodules $K\subset X$ with $\dim K=k$ and $\dim\Hom_{\JJ_d}(\JJ_1,K)<r$.  But dimension of $\Hom$ spaces is upper semicontinuous and so $Gr_{k,<r}^{\JJ_d}(X)$ is open in $Gr_k^{\JJ_d}(X)$.  Then $Gr_{k,r}^{\JJ_d}(X)$ is the complement of $Gr_{k,<r}^{\JJ_d}(X)$ inside $Gr_{k,<r+1}^{\JJ_d}(X)$, i.e.\ it is the intersection of an open subset and a closed subset of $Gr_{k}^{\JJ_d}(X)$.
+\end{proof}
+For $\bfk\in\cK(\JJ_d)$ denote by $Gr^{\JJ_d}_\bfk(X)\subset Gr^{\JJ_d}_{\dim\bfk}(X)$ the subset consisting of subrepresentations $K\subset X$ with fixed isomorphism class $[K]=\bfk$.  Note that, writing $\bfk=k_1\beta_1+\cdots+k_d\beta_d$, we have $\dim\bfk=k_1+2k_2+\cdots+dk_d$.
+\begin{lemma}\label{le:isotypic stratification}
+  For each $\bfk\in\cK(\JJ_d)$, $Gr^{\JJ_d}_\bfk(X)\subset Gr^{\JJ_d}_{\dim\bfk}(X)$ is a locally closed subspace.
+\end{lemma}
+\begin{proof}
+  For each $0\le i\le d-1$, the action of $t^i$ on $\JJ_d$-submodules of $X$ gives a continuous map 
+  \[t^i:Gr^{\JJ_d}_{\dim\bfk}(X)\to\bigsqcup_{\ell\le\dim\bfk} Gr_\ell^{\JJ_d}(X).\]
+  Then $Gr^{\JJ_d}_\bfk(X)$ is exactly the intersection of the fibers 
+  \[(t^i)^{-1}\big(Gr_{k_{i+1}+2k_{i+2}+\cdots+(d-i)k_d,k_{i+1}+k_{i+2}+\cdots+k_d}^{\JJ_d}(X)\big)\]
+  for $0\le i\le d-1$.  By Lemma~\ref{le:rank stratification} and continuity of the maps $t^i$, each of these fibers is locally closed in $Gr_{\dim\bfk}^{\JJ_d}(X)$ and the result follows.
+\end{proof}
+
+\erase{
+Let $X$ be a $\JJ_d$-module.  For each weak composition $\lambda=(\lambda_1,\ldots,\lambda_m)\vdash\dim X$, write $\cF_\lambda^\FF(X)$ for the variety of all partial flags $X_\bullet:=(0=X_m\subset X_{m-1}\subset\cdots\subset X_1\subset X_0=X)$ of $\FF$-subspaces in the vector space underlying $X$ such that $\dim(X_i/X_{i+1})=\lambda_{i+1}$ for each $0\le i\le m-1$, call these $\lambda$-flags in $X$.  If $\lambda_i=0$ for some $i$, we say the $\lambda$-flag is \emph{singular}.  Denote by $\cF_\lambda^{\JJ_d}(X)\subset\cF_\lambda^\FF(X)$ the subset of all $\lambda$-flags consisting of $\JJ_d$-submodules in $X$.
+\begin{lemma}
+  For any $\JJ_d$-module $X$, the subset $\cF_\lambda^{\JJ_d}(X)$ is closed in $\cF_\lambda^\FF(X)$.
+\end{lemma}
+\begin{proof}
+  The proof is similar to that of Lemma~\ref{le:Grassmannian subvariety} and is thus omitted.
+\end{proof}
+A $\lambda$-flag $X_\bullet:=(0=X_m\subset X_{m-1}\subset\cdots\subset X_1\subset X_0=X)$ in $\cF_\lambda^{\JJ_d}(X)$ \emph{respects summands} of $X$ (or simply is \emph{respectable}) if $X_i/X_{i+1}\cong\JJ_{\lambda_{i+1}}$ for $0\le i\le m-1$.  Write $\cF_{\lambda,s}^{\JJ_d}(X)\subset\cF_\lambda^{\JJ_d}(X)$ for the subset of respectable $\lambda$-flags in $X$.
+\begin{lemma}
+  The set $\cF_{\lambda,s}^{\JJ_d}(X)$ of respectable $\lambda$-flags is locally closed in $\cF_\lambda^{\JJ_d}(X)$.
+\end{lemma}}%end erase
+
+Write $Gr_\bfk^{\JJ_d}(X,X_\bullet)\subset Gr_\bfk^{\JJ_d}(X)$ for the subset consisting of submodules $K\subset X$ which satisfy the rank condition with respect to the chosen framing $X_\bullet$ of $X$.
+\begin{lemma}\label{le:isotypic flag grassmannians}
+  For each $\bfk\in\cK(\JJ_d)$, $Gr_\bfk^{\JJ_d}(X,X_\bullet)$ is a locally closed subspace in $Gr^{\JJ_d}_{\dim\bfk}(X)$.
+\end{lemma}
+\begin{proof}
+  We will work by induction on $d$.  When $d=1$, a $\JJ_d$-module is exactly an $\FF$-vector space and the rank condition is automatically satisfied for any flag in $X$.  It follows in this case that $Gr_\bfk^{\JJ_d}(X,X_\bullet)=Gr_\bfk^{\JJ_d}(X)$ and the result is an immediate consequence of Lemma~\ref{le:isotypic stratification}.  For $d>1$, the action of $t$ gives a continuous map 
+  \[t:Gr_\bfk^{\JJ_d}(X)\to Gr_{k_2\beta_1+k_3\beta_2+\cdots+k_d\beta_{d-1}}^{\JJ_{d-1}}(tX).\]
+  Then $Gr_\bfk^{\JJ_d}(X,X_\bullet)=t^{-1}\big(Gr_{k_2\beta_1+k_3\beta_2+\cdots+k_d\beta_{d-1}}^{\JJ_{d-1}}(tX,tX_\bullet)\big)$ which is locally closed by induction.
+\end{proof}
+As a corollary we obtain the desired result.
+\begin{proof}[Proof of Theorem~\ref{th:flag grassmannian}]  
+  There is a decomposition
+  \begin{equation}\label{eq:flag grassmannian isotypic decomposition}
+    Gr_k^{\JJ_d}(X,X_\bullet)=\bigsqcup_{\bfk\in\cK(\JJ_d):\dim\bfk=k} Gr_\bfk^{\JJ_d}(X,X_\bullet),
+  \end{equation}
+  where each $Gr_\bfk^{\JJ_d}(X,X_\bullet)$ is locally closed by Lemma~\ref{le:isotypic flag grassmannians}, i.e.\ $Gr_k^{\JJ_d}(X,X_\bullet)$ is constructible as claimed.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{FilteredHom}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fibrations}  
+We now return to understanding the map $\tilde\pi$ from Section~\ref{sec:grassmannians}.  Recall that $\tilde\pi$ was given by
+\[\tilde\pi:Gr_k^{\JJ_d}(X\oplus Y)\to\bigsqcup_{r+s=k} Gr_r^{\JJ_d}(X)\times Gr_s^{\JJ_d}(Y),\quad K\mapsto \big(\pi_Y(K),K\cap Y\big).\]
+As we saw in Remark \ref{rem:issues}, the fibers of $\tilde\pi$ are not described uniformly over the components of the base.  This will be overcome by introducing framings of all $\JJ_d$-modules involved.
+
+Let $X_\bullet$ and $Y_\bullet$ be framings for $\JJ_d$-modules $X$ and $Y$ respectively.  Write $X_\bullet\oplus Y_\bullet$ for the flag 
+\[0=Y_0\subset Y_1\subset\cdots\subset (Y_m=Y=X_0\oplus Y)\subset X_1\oplus Y\subset\cdots\subset X_n\oplus Y=X\oplus Y.\]
+We restict the map $\tilde\pi$ to the Grassmannian $Gr_k^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)$ of $\JJ_d$-submodules $K\subset X\oplus Y$ satisfying the rank condition with respect to the flag $X_\bullet\oplus Y_\bullet$.  Notice that, for any such $K$, the $\JJ_d$-submodule $K\cap Y\subset Y$ satisfies the rank condition with respect to $Y_\bullet$ by definition.  Moreover, by Lemma~\ref{le:induced flags}, $\pi_Y(K)\subset X$ satisfies the rank condition with respect to $X_\bullet$.  In particular, $\tilde\pi$ restricts to a map
+\[\tilde\pi:Gr_k^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)\to\bigsqcup_{r+s=k} Gr_r^{\JJ_d}(X,X_\bullet)\times Gr_s^{\JJ_d}(Y,Y_\bullet).\]
+Actually we get more out of the restricted map $\tilde\pi$.  As we saw in the second example of Remark~\ref{rem:issues}, the isomorphism type of $R$ and $S$ are not uniquely determined by the isomorphism type of $K$ in general.  This issue disappears for the restricted map $\tilde\pi$.
+\begin{lemma}
+  Let $K\in Gr_k^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)$.  Then, writing $\tilde\pi(K)=(R,S)$, we have $[K]=[R]+[S]$.
+\end{lemma}
+\begin{proof}
+  Since $K$ satisfies the rank condition with respect to $X_\bullet\oplus Y_\bullet$, we have $\rank(K/K\cap Y)=\rank(K)-\rank(K\cap Y)$.  But $S=K\cap Y$ and $R\cong K/K\cap Y$ so that $\rank(K)=\rank(R)+\rank(S)$.  The result then follows from Lemma~\ref{le:ranks and quotients}. 
+\end{proof}
+Thus $\tilde\pi$ restricts further to give a map
+\begin{equation}\label{eq:isotypic flag grassmannian fibration}
+  \tilde\pi:Gr_\bfk^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)\to\bigsqcup_{\bfr,\bfs\in\cK(\JJ_d):\bfr+\bfs=\bfk} Gr_\bfr^{\JJ_d}(X,X_\bullet)\times Gr_\bfs^{\JJ_d}(Y,Y_\bullet)
+\end{equation}
+defined on the locally closed components of $Gr_k^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)$ as in \eqref{eq:flag grassmannian isotypic decomposition}.  Our aim now is to understand which elements of the fiber $\Hom_{\JJ_d}(R,Y/S)$ of $\tilde\pi$ over a pair $(R,S)\in Gr_\bfr^{\JJ_d}(X,X_\bullet)\times Gr_\bfs^{\JJ_d}(Y,Y_\bullet)$ correspond to $\JJ_d$-submodules $K\subset X\oplus Y$ satisfying the rank condition with respect to $X_\bullet\oplus Y_\bullet$.  
+
+For this notice that $K_f$ satisfies the rank condition with respect to $X_\bullet\oplus Y_\bullet$ exactly when $K_f\cap Y=S$ is a summand of $K_f$, i.e. when the sequence $0\to S\to K_f\to R\to 0$ splits.  This happens precisely when the map $f:R\to Y/S$ lifts to a map $\overline{f}:R\to Y$; that is, when $f$ is contained in the image of the natural map $\Hom_{\JJ_d}(R,Y)\to\Hom_{\JJ_d}(R,Y/S)$.  Thus the fiber over $(R,S)$ of the restriction of $\tilde\pi$ to $Gr_\bfk^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)$ from \eqref{eq:isotypic flag grassmannian fibration} can be identified with the affine space $\Hom_{\JJ_d}(R,Y)/\Hom_{\JJ_d}(R,S)$.
+\begin{remark}
+  Notice that in contrast to the examples of Remark~\ref{rem:issues}, by \eqref{eq:hom and ext} the fibers of $\tilde\pi$ from \eqref{eq:isotypic flag grassmannian fibration} have uniform dimension over the components $Gr_\bfr^{\JJ_d}(X,X_\bullet)\times Gr_\bfs^{\JJ_d}(Y,Y_\bullet)$ of the base. 
+\end{remark}
+
+By considering these constructions over a finite field and applying, e.g., \cite[Lemma 3.5]{caldero-chapoton}, we obtain the following result.
+\begin{proposition}\label{prop:flag grassmannian recursion}
+  For $\bfk\in\cK(\JJ_d)$, we have
+  \[\chi\big(Gr_\bfk^{\JJ_d}(X\oplus Y,X_\bullet\oplus Y_\bullet)\big)=\sum\limits_{\bfr+\bfs=\bfk}\chi\big(Gr_\bfr^{\JJ_d}(X,X_\bullet)\big)\cdot\chi\big(Gr_\bfs^{\JJ_d}(Y,Y_\bullet)\big),\]
+  where $\chi$ denotes the Euler-Poincar\'e characteristic with compact supports.
+\end{proposition}
+
+\erase{
+Working again over the finite field $\FF=\FF_q$ with $q$ elements, we obtain a precise recursion on the point count of $Gr_\bfk^{\JJ_d}(X_\bullet\oplus Y_\bullet)$.
+\begin{proposition}
+  Let $X$ and $Y$ be $\JJ_d$-modules together with flags $X_\bullet$ and $Y_\bullet$ of $\JJ_d$-submodules.  For $\bfk\in\cK(\JJ_d)$ we have
+  \[\big|Gr_\bfk^{\JJ_d}(X_\bullet\oplus Y_\bullet)\big|=\sum\limits_{\bfr+\bfs=\bfk}q^{\sum\limits_{1\le i,j\le d}\min(i,j)r_i(y_j-s_j)}\big|Gr_\bfr^{\JJ_d}(X_\bullet)\big|\cdot\big|Gr_\bfs^{\JJ_d}(Y_\bullet)\big|,\]
+  where we write $[Y]=y_1\beta_1+\cdots+y_d\beta_d$.
+\end{proposition}}%end erase
+
+Define multinomial coefficients ${n\choose k_1,\ldots,k_n}$ recursively by 
+\[{n\choose k_1,\ldots,k_d}=\sum\limits_{i=0}^d {n-1\choose k_1,\ldots,k_i-1,\ldots,k_d},\]
+where
+\[{n\choose 0,\ldots,0}=1\quad\text{and}\quad{n\choose k_1,\ldots,k_d}=0\text{ if $k_i<0$ for some $i$.}\]
+Let $\bfk=k_1\beta_1+\cdots+k_d\beta_d\in\cK(\JJ_d)$.  Then we abbreviate the multinomial coefficient ${n\choose k_1,\ldots,k_d}$ as ${n\choose\bfk}$.  This change of notation is strongly justified by the following result.
+\begin{corollary}\label{cor:free Grassmannian Euler characteristics}
+  For $n>0$ and $\bfk\in\cK(\JJ_d)$, we have $\chi\big(Gr_\bfk(\JJ_d^n,\JJ_{d,\bullet}^n)\big)={n\choose k_1,\ldots,k_d}$, where $\JJ_{d,\bullet}^n$is any framing of $\JJ_d^n$.
+\end{corollary}
+\begin{proof}
+  Since $\JJ_d$ has a unique submodule isomorphic to $\JJ_i$ for each $0\le i\le d$, we have 
+  \[\chi\big(Gr_\bfq(\JJ_d)\big)=\begin{cases}1 & \text{if $\bfq=\beta_i$ with $0\le i\le d$;}\\ 0 & \text{otherwise.}\end{cases}\]
+  Applying Proposition~\ref{prop:flag grassmannian recursion}, we have 
+  \begin{align*}
+    \chi\big(Gr_\bfk(\JJ_d^n,\JJ_{d,\bullet}^n)\big)
+    &=\sum\limits_{\bfp+\bfq=\bfk}\chi\big(Gr_\bfp(\JJ_d^{n-1},\JJ_{d,\bullet}^{n-1})\big)\chi\big(Gr_\bfq(\JJ_d)\big)\\
+    &=\sum\limits_{i=0}^d\chi\big(Gr_{\bfk-\beta_i}(\JJ_d^{n-1},\JJ_{d,\bullet}^{n-1})\big)\chi\big(Gr_{\beta_i}(\JJ_d)\big)\\
+    &=\sum\limits_{i=0}^d\chi\big(Gr_{\bfk-\beta_i}(\JJ_d^{n-1},\JJ_{d,\bullet}^{n-1})\big)
+  \end{align*}
+  and the claim follows by induction.
+\end{proof}
+Following Lemma~\ref{le:Grothendieck quotients} and Lemma~\ref{le:induced flags} we obtain the following result.
+\begin{lemma}\label{le:multinomial symmetry}
+  For $n>0$ and $\bfk\in\cK(\JJ_d)$, we have
+  \[{n\choose\bfk}={n\choose n\beta_d/\bfk}.\]
+\end{lemma}
+Finally, combining Proposition~\ref{prop:flag grassmannian recursion} and Corollary~\ref{cor:free Grassmannian Euler characteristics} we obtain the following useful result.
+\begin{corollary}\label{cor:multinomial recursions}
+  For $m,n\ge0$ and $\bfk\in\cK(\JJ_d)$ we have
+  \[{m+n\choose\bfk}=\sum\limits_{\bfr+\bfs=\bfk}{m\choose\bfr}{n\choose\bfs}.\]
+\end{corollary}
+
+Let $X$ be a $\JJ_d$-module with framing $X_\bullet$.  It will be important to understand a slight variation on the Grassmannian of submodules in $X$.  Consider $\bfk,\bfl\in\cK(\JJ_d)$ with $0\le\bfk\le\bfl$.  Write $Gr^{\JJ_d}_{\bfk,\bfl}(X)\subset Gr^{\JJ_d}_\bfk(X)\times Gr^{\JJ_d}_\bfl(X)$ for the subset of all pairs of submodules $(K,L)$ with $K\subset L$.  
+\begin{lemma}
+  Let $X$ be a $\JJ_d$-module.  Given $0\le\bfk\le\bfl$, the subset $Gr^{\JJ_d}_{\bfk,\bfl}(X)$ is a closed subvariety of $Gr^{\JJ_d}_\bfk(X)\times Gr^{\JJ_d}_\bfl(X)$, hence projective.
+\end{lemma}
+
+We aim to study the fibers of the natural projection map $Gr^{\JJ_d}_{\bfk,\bfl}(X)\onto Gr^{\JJ_d}_\bfk(X)$.  Note that the fibers of the natural projection map 
+\[\bigsqcup_{\bfl\in\cK(\JJ_d)} Gr^{\JJ_d}_{\bfk,\bfl}(X)\onto Gr^{\JJ_d}_\bfk(X)\]
+are easily described.  Indeed, it is well-known that given $K\subset X$ in the base, there is a bijection between $\JJ_d$-modules $L$ with $K\subset L\subset X$ and $\JJ_d$-submodules of $X/K$, i.e. the fiber over $K$ is given by $\bigsqcup\limits_{\bfr\in\cK(\JJ_d)} Gr^{\JJ_d}_\bfr(X/K)$.
+
+Despite the simplicity of this observation, the fibers are not particularly well-behaved when restricting to a single component $Gr^{\JJ_d}_{\bfk,\bfl}(X)$ since the isomorphism class of the $\JJ_d$-module $L$ corresponding to a submodule $R\subset X/K$ depends delicately on the embedding of $R$ and can jump sporadically as $R$ varies inside $X/K$.  Fortunately, the situation we are most interested in allows us to restrict to a more reasonable subset.  
+
+Define the subset $Gr^{\JJ_d}_{\bfk\partition\bfl}(X)\subset Gr^{\JJ_d}_{\bfk,\bfl}(X)$ consisting of pairs $(K,L)$ such that $K$ is a summand of $L$.
+\begin{lemma}
+  For any $\bfk,\bfl\in\cK(\JJ_d)$ with $0\le\bfk\le\bfl$, the subset $Gr^{\JJ_d}_{\bfk\partition\bfl}(X)$ is open in $Gr^{\JJ_d}_{\bfk,\bfl}(X)$.
+\end{lemma}
+\begin{proof}
+  Given a point $(K,L)\in Gr^{\JJ_d}_{\bfk,\bfl}(X)$, the submodule $K$ is a summand of $L$ if and only if 
+  \[\rank(L/K)=\rank(L)-\rank(K)=\rank\bfl-\rank\bfk.\]
+  But note that $\rank(L/K)=\dim\soc(L/K)=\dim\Hom_{\JJ_d}(\JJ_1,L/K)$ and that $\rank(L)-\rank(K)$ is the smallest possible value as $L$ and $K$ vary inside $Gr^{\JJ_d}_{\bfk,\bfl}(X)$.  Since $\dim\Hom_{\JJ_d}(\JJ_1,L/K)$ gives an upper semicontinuous function on $Gr^{\JJ_d}_{\bfk,\bfl}(X)$, the minimum value is also the generic value, i.e. $Gr^{\JJ_d}_{\bfk\partition\bfl}(X)$ is open in $Gr^{\JJ_d}_{\bfk,\bfl}(X)$.
+\end{proof}
+We consider the following restriction of the projection \[\pi:Gr^{\JJ_d}_{\bfk\partition\bfl}(X)\onto Gr^{\JJ_d}_\bfk(X).\]  Our goal is to show that the fibers of this map admit a nice description.  The following result will be crucial for our analysis.
+\begin{lemma}\label{le:special summand}
+  Let $X$ be a $\JJ_d$-module with framing $X_\bullet$.  Given $K\in Gr^{\JJ_d}_\bfk(X,X_\bullet)$, there exists a summand $T$ of $X$ having the following properties:
+  \begin{itemize}
+    \item $T$ satisfies the rank condition with respect to $X_\bullet$;
+    \item $K\subset T$;
+    \item $\soc(T)=\soc(K)$.
+  \end{itemize}
+\end{lemma}
+
+Suppose $(K,L)\in Gr^{\JJ_d}_{\bfk\partition\bfl}(X)$ is in the fiber of $\pi$ over $K\in Gr^{\JJ_d}_\bfk(X)$.  Consider a summand $T\subset X$ as in Lemma~\ref{le:special summand}.  Since $K$ is a summand of $L$, the composed map $L/K\into X/K\onto X/T$ is injective and its image determines a point in $Gr^{\JJ_d}_{\bfl-\bfk}(X/T)$.  Moreover, the induced map $Gr^{\JJ_d}_{\bfk\partition\bfl}(X)\to Gr^{\JJ_d}_{\bfl-\bfk}(X/T)$ is surjective.  Indeed, given $R\in Gr^{\JJ_d}_{\bfl-\bfk}(X/T)$, we may construct $(K,L)\in Gr^{\JJ_d}_{\bfk\partition\bfl}(X)$ as follows.  First, define $\tilde L\subset X$ via the following pullback diagram:
+\[\begin{tikzcd}
+  0 \arrow{r} & T\arrow[hook]{r}\arrow[equal]{d} & \tilde L\arrow[two heads]{r}\arrow[hook]{d}\arrow[dr, phantom, "\lrcorner", very near start]& R\arrow{r}\arrow[hook]{d} & 0 \\
+  0 \arrow{r} & T\arrow[hook]{r} & X\arrow[two heads]{r} & X/T\arrow{r} & 0.
+\end{tikzcd}\]
+Since $T$ is a summand of $X$, the bottom row above splits and thus the top row splits as well, i.e. we have $\tilde L\cong T\oplus R$.  After choosing such a splitting of the upper short exact sequence, we may define $L\subset\tilde L\subset X$ as the submodule $K\oplus R\subset T\oplus R$ arising from the inclusion $K\subset T$.
+%  Summarizing, we have the following diagram of $\JJ_d$-modules:
+%\[\begin{tikzcd}
+%  0 \arrow{r} & K\arrow[hook]{r}\arrow[hook]{d} & L\arrow[two heads]{r}\arrow[hook]{d}& R\arrow{r}\arrow[equal]{d} & 0 \\
+%  0 \arrow{r} & T\arrow[hook]{r}\arrow[equal]{d} & \tilde L\arrow[two heads]{r}\arrow[hook]{d}\arrow[dr, phantom, "\lrcorner", very near start]& R\arrow{r}\arrow[hook]{d} & 0 \\
+%  0 \arrow{r} & T\arrow[hook]{r} & X\arrow[two heads]{r} & X/T\arrow{r} & 0.
+%\end{tikzcd}\]
+
+To complete our study of the projection $\pi:Gr^{\JJ_d}_{\bfk\partition\bfl}(X)\onto Gr^{\JJ_d}_\bfk(X)$ we claim that the fiber of the map $\pi^{-1}(K)\onto Gr^{\JJ_d}_{\bfl-\bfk}(X/T)$ over a point $R$ is the affine space $\Hom_{\JJ_d}(R,T)/\Hom_{\JJ_d}(R,K)$.  Indeed, given $K$, $T$, and $R$ as above, a choice of $L\cong K\oplus R$ in the fiber over $R$ gives a map $f:L\into X$ making the following diagram commute:
+\[\begin{tikzcd}
+  0 \arrow{r} & K\arrow[hook]{r}\arrow[hook]{d} & L\arrow[two heads]{r}\arrow[hook,"f"]{d}& R\arrow{r}\arrow[hook]{d} & 0 \\
+  0 \arrow{r} & T\arrow[hook]{r} & X\arrow[two heads]{r} & X/T\arrow{r} & 0.
+\end{tikzcd}\]
+Fix such a map $f:L\into X$.  Given any other map $f':L\into X$ making the diagram above commute, the map $f'-f:L\to X$ fits into the commutative diagram
+\[\begin{tikzcd}
+  0 \arrow{r} & K\arrow[hook, "j_1"]{r}\arrow["0"]{d} & L\arrow[two heads, "p_1"]{r}\arrow[hook,"f'-f"]{d}& R\arrow{r}\arrow["0"]{d} & 0 \\
+  0 \arrow{r} & T\arrow[hook, "j_2"]{r} & X\arrow[two heads, "p_2"]{r} & X/T\arrow{r} & 0.
+\end{tikzcd}\]
+Any map $f'-f$ as above satisfies $p_2\circ(f'-f)=0$ and $(f'-f)\circ j_1=0$, hence it may be factored as $j_2\circ g\circ p_1$ for some $g\in\Hom_{\JJ_d}(R,T)$.  Moreover, any $g\in\Hom_{\JJ_d}(R,T)$ gives rise to a map $f':L\into X$ as above given by $f'=f+j_2\circ g\circ p_1$.  But notice that $\im f=\im f'$ exactly when $\im g\subset K$.  This establishes the claim and proves the following result.
+\begin{theorem}
+  Let $\pi:Gr^{\JJ_d}_{\bfk\partition\bfl}(X)\onto Gr^{\JJ_d}_\bfk(X)$ be the natural projection.  For $K\in Gr^{\JJ_d}_\bfk(X)$ and $T\subset X$ as in Lemma~\ref{le:special summand}, $\pi^{-1}(K)$ fibers over $Gr^{\JJ_d}_{\bfl-\bfk}(X/T)$ and the fiber over a point $R\in Gr^{\JJ_d}_{\bfl-\bfk}(X/T)$ is the affine space $\Hom_{\JJ_d}(R,T)/\Hom_{\JJ_d}(R,K)$.
+\end{theorem}
+
+To make use of this result we will need to restrict to the constructible subset
+\[Gr^{\JJ_d}_{\bfk,\bfl}(X,X_\bullet):=Gr^{\JJ_d}_{\bfk,\bfl}(X)\cap\big(Gr^{\JJ_d}_\bfk(X,X_\bullet)\times Gr^{\JJ_d}_\bfl(X,X_\bullet)\big).\]
+Taking the intersection with $Gr^{\JJ_d}_{\bfk\partition\bfl}(X)$ gives the constructible subset 
+\[Gr^{\JJ_d}_{\bfk\partition\bfl}(X,X_\bullet):=Gr^{\JJ_d}_{\bfk,\bfl}(X,X_\bullet)\cap Gr^{\JJ_d}_{\bfk\partition\bfl}(X)\]
+where the fibers of the projection $\pi:Gr^{\JJ_d}_{\bfk\partition\bfl}(X,X_\bullet)\onto Gr^{\JJ_d}_\bfk(X,X_\bullet)$ become particularly nice.  Maybe not...
+\begin{example}
+  
+\end{example}
+\begin{lemma}
+  Suppose $K,L\subset X$ satisfy the rank condition with respect to a framing $X_\bullet$.  If $K\subset L$, then $L/K$ satisfies the rank condition with respect to the induced framing $X_\bullet/K$ on $X/K$.  Moreover, if $K$ is a summand of $L$, then $L/K$ determines an element in $Gr^{\JJ_d}_{\bfl-\bfk}(X/T,X_\bullet/T)$.
+\end{lemma}
+\begin{proof}
+
+\end{proof}
+In particular, we see for the restricted projection map $\pi:Gr^{\JJ_d}_{\bfk\partition\bfl}(X,X_\bullet)\onto Gr^{\JJ_d}_\bfk(X,X_\bullet)$ that $\pi^{-1}(K)$ fibers over $Gr^{\JJ_d}_{\bfl-\bfk}(X/T,X_\bullet/T)$.
+
+In general, the isomorphism type of the summand $T\subset X$ depends on the embedding of $K$ into $X$ and thus the fibers are not uniform over $Gr^{\JJ_d}_\bfk(X,X_\bullet)$.  However, if $X$ is a free $\JJ_d$-module (or more generally simply isotypic), then $T$ itself is free with the same rank as $K$ and the fibers of the projection $Gr^{\JJ_d}_{\bfk\partition\bfl}(X,X_\bullet)\onto Gr^{\JJ_d}_\bfk(X,X_\bullet)$ will be uniform over the base.  Moreover, we observe that in this case the fiber over $K$ will be independent of the choice of the summand $T$ containing $K$.  Combining these observations with Corollary~\ref{cor:free Grassmannian Euler characteristics}, we obtain the following important result.
+\begin{theorem}
+  Let $X$ be a free $\JJ_d$-module of with framing $X_\bullet$.  Given $\bfk,\bfl\in\cK(\JJ_d)$ with $0\le\bfk\le\bfl$, we have
+  \begin{equation}\label{summand Grassmannian Euler characteristics}
+    \chi\big(Gr^{\JJ_d}_{\bfk\partition\bfl}(X,X_\bullet)\big)={\rank X-\rank\bfk\choose \bfl-\bfk}\chi\big(Gr^{\JJ_d}_\bfk(X,X_\bullet)\big).
+  \end{equation}
+\end{theorem}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Jet Species}\label{sec:jet species}
+Fix a collection $\bfd=(d_1,\ldots,d_n)$ of positive integers.  
+Fix an acyclic quiver $Q$ with vertices $Q_0=\{1,\ldots,n\}$ and for each arrow $i\leftarrow j\in Q_1$ fix a $\JJ_{d_i}$-$\JJ_{d_j}$ bimodule ${}_iM_j$.  
+We consider each ${}_iM_j$ as a bimodule over the algebra $\JJ_\bfd:=\prod\limits_{i=1}^n \JJ_{d_i}$ where the left action (resp. right action) of $\JJ_{d_k}$ on ${}_iM_j$ is zero if $k\ne i$ (resp. if $k\ne j$).  
+Write $M=\bigoplus\limits_{i\leftarrow j\in Q_1} {}_iM_j$ and define the tensor algebra $\tilde\JJ=\bigoplus\limits_{\ell=0}^\infty M^{\otimes \ell}$, where we take tensor products over $\JJ_\bfd$ and define $M^{\otimes 0}$ to be $\JJ_\bfd$.  
+For $1\le i\le n$, denote by $e_i$ the element of $\JJ_\bfd$ corresponding to the unit of $\JJ_{d_i}$ and note that these form a complete set of orthogonal idempotents in $\JJ_\bfd$.  
+Multiplication in $\tilde\JJ$ will simply be denoted by juxtaposition.
+
+In this section we consider the category $\tilde\JJ-\mod$ of finite-dimensional (left) $\tilde\JJ$-modules.  
+The simple $\tilde\JJ$-modules are denoted $S_i$ for $1\le i\le n$ with $\dim e_j S_i=\delta_{ij}$.  
+The projective $\tilde\JJ$-modules are given by $P_i=\tilde\JJ e_i$ while the injective $\tilde\JJ$-modules are given by $I_i=D(e_i \tilde\JJ)$, where $D=\Hom_\FF(-,\FF)$ is the standard $\FF$-linear duality functor.  
+A $\tilde\JJ$-module $F$ is called \emph{locally free} if each $e_i F$ is free as an $\JJ_{d_i}$-module.  
+Each algebra $\JJ_{d_i}$ can be considered as an ideal in $\tilde\JJ$ and thus is naturally a locally free $\tilde\JJ$-module with $\rank e_j \JJ_{d_i}=\delta_{ij}$, we call it a \emph{generalized simple module} and denote it by $R_i$.
+\begin{proposition}\mbox{}
+  \begin{enumerate}
+    \item For each vertex $j\in Q_0$, the minimal projective resolution of $R_j$ is given by
+    \begin{equation}
+      0\longrightarrow \bigoplus_{i\leftarrow j\in Q_1} P_i\otimes_{\JJ_{d_i}} {}_iM_j\stackrel{\alpha}{\longrightarrow} P_j\stackrel{\pi}{\longrightarrow} R_j\longrightarrow 0
+    \end{equation}
+    where $\alpha(p\otimes m)=p\cdot m$ and $\pi(p)=e_j\cdot p$.
+    \item For each vertex $i\in Q_0$, the minimal injective coresolution of $R_i$ is given by
+    \begin{equation}
+      0\longrightarrow R_i\stackrel{\iota}{\longrightarrow} I_i\stackrel{\beta}{\longrightarrow}\bigoplus_{i\leftarrow j\in Q_1} I_j\otimes_{\JJ_{d_j}}\Hom_{\JJ_{d_i}}({}_iM_j,\JJ_{d_i}) \longrightarrow 0
+    \end{equation}
+    where 
+    \begin{itemize}
+      \item $\iota(t^r)(m)=me_it^r$ for $0\le r<d_i$ and $m\in e_i\tilde\JJ$; 
+      \item $\beta(\phi_i)\big(x_j,m\big)=\phi_i(m\otimes x_j)$ for $x_j\in e_j\tilde\JJ$ and $m\in {}_iM_j$.
+    \end{itemize}
+  \end{enumerate}
+\end{proposition}
+\begin{corollary}
+  If ${}_iM_j$ is free as a left $\JJ_{d_i}$-module and free as a right $\JJ_{d_j}$-module for each $i\from j\in Q_1$, then all projective and all injective $\tilde\JJ$-modules are locally free.
+\end{corollary}
+
+Thus we assume from here on that ${}_iM_j$ is free as a left $\JJ_{d_i}$-module and free as a right $\JJ_{d_j}$-module for each $i\from j\in Q_1$.  As a consequence we obtain the following analogue of \cite[Prop. 3.5]{geiss-leclerc-schroer} whose proof is identical and thus omitted.
+\begin{proposition}
+  For a $\tilde\JJ$-module $V$ the following are equivalent:
+  \begin{enumerate}
+    \item $V$ is locally free;
+    \item $\projdim(V)\le1$;
+    \item $\injdim(V)\le1$;
+    \item $\projdim(V)<\infty$;
+    \item $\injdim(V)<\infty$.
+  \end{enumerate}
+\end{proposition}
+
+Define the \emph{Euler-Ringel form} $\langle\cdot,\cdot\rangle:(\tilde\JJ-\mod)\times(\tilde\JJ-\mod)\to\ZZ$ by 
+\[\langle V,W\rangle=\dim_\FF\Hom_{\tilde\JJ}(V,W)-\dim_\FF\Ext^1_{\tilde\JJ}(V,W).\]
+\begin{corollary}
+  If either of $V$ or $W$ is locally free, then $\langle V,W\rangle$ only depends on the dimension vectors of $V$ and $W$.
+\end{corollary}
+
+In this case, the Euler-Ringel form may be computed quite explicitly.  
+Since $Q$ is acyclic, it is enough to compute the Euler-Ringel form on modules supported at single vertices.  
+For $i,j\in Q_0$, write $n_{ij}$ for the number of arrows $i\from j$ in $Q$.  
+\begin{lemma}\mbox{}
+  \begin{enumerate}
+    \item Suppose $V\in\tilde\JJ-\mod$ is supported on vertex $j$, i.e. $e_iV=\delta_{ij}V$.  Then
+    \[\langle V,R_i\rangle=d_i n_{ij}\dim V.\]
+    \item Suppose $W\in\tilde\JJ-\mod$ is supported on vertex $i$, i.e. $e_jW=\delta_{ij}W$.  Then
+    \[\langle R_j,W\rangle=d_j n_{ij}\dim W.\]
+  \end{enumerate}
+\end{lemma}
+
+Let $V$ be a $\tilde\JJ$-module.  
+Write $V_j=e_j V$ for the $\JJ_{d_j}$-module associated to vertex $j\in Q_0$ and note that the action of $\tilde\JJ$ on $V$ gives $\JJ_{d_i}$-module morphisms ${}_i\theta_j:{}_iM_j\otimes_{\JJ_{d_j}} V_j\to V_i$ for each $i\from j\in Q_1$.  
+Using the standard Hom-Tensor adjunction, the map ${}_i\theta_j$ gives rise to a map 
+\[\overline{{}_i\theta_j}\in\Hom_{\JJ_{d_j}}\!\!\big(V_j,\Hom_{\JJ_{d_i}}({}_iM_j,V_i)\big)\cong\Hom_{\JJ_{d_j}}\!\!\big(V_j,\Hom_{\JJ_{d_i}}({}_iM_j,\JJ_{d_i})\otimes_{\JJ_{d_i}}V_i\big).\]
+
+For a sink or a source $k$ of $Q$, write $\mu_kQ$ for the quiver obtained from $Q$ by reversing all arrows incident to vertex $k$.  Define 
+\[\mu_k M=\begin{cases}\bigoplus\limits_{\substack{i\from j\in Q_1\\ j\ne k}}{}_iM_j\oplus\bigoplus\limits_{i\from k\in Q_1}\Hom_{\JJ_{d_i}}({}_iM_k,\JJ_{d_i}) & \text{if $k$ is a source;}\\ \bigoplus\limits_{\substack{i\from j\in Q_1\\ i\ne k}}{}_iM_j\oplus\bigoplus\limits_{k\from i\in Q_1}\Hom_{\JJ_{d_i}}({}_kM_i,\JJ_{d_i}) & \text{if $k$ is a sink.}\end{cases}\]  
+Write $\mu_k\tilde\JJ$ for the tensor algebra of $\mu_kM$ over $\JJ_\bfd$.
+
+Suppose $k\in Q_0$ is a source.  Define a $\JJ_{d_k}$-module map 
+\begin{equation}\label{eq:source total map}
+  \theta_k:=\bigoplus\limits_{i\from k\in Q_1} \overline{{}_i\theta_k}:V_k\to\bigoplus\limits_{i\from k\in Q_1}\Hom_{\JJ_{d_i}}({}_iM_k,\JJ_{d_i})\otimes_{\JJ_{d_i}} V_i.
+\end{equation}
+Then define a $\mu_k\tilde\JJ$-module $\SS^-_k(V)=\bigoplus_{i\ne k} V_i\oplus\coker\theta_k$, where the action of $\Hom_{\JJ_{d_i}}({}_iM_k,\JJ_{d_i})$ on $V_i$ is given by the natural projection onto $\coker\theta_k$.
+
+Suppose $k\in Q_0$ is a sink.  Define a $\JJ_{d_k}$-module map 
+\begin{equation}\label{eq:sink total map}
+  {}_k\theta:=\sum\limits_{k\from j\in Q_1} {}_k\theta_j:\bigoplus\limits_{k\from j\in Q_1}{}_kM_j\otimes_{\JJ_{d_j}} V_j\to V_k.
+\end{equation}
+Then define a $\mu_k\tilde\JJ$-module $\SS^+_k(V)=\bigoplus_{i\ne k} V_i\oplus\ker {}_k\theta$, where the action of $\Hom_{\JJ_{d_j}}({}_kM_j,\JJ_{d_j})$ on $\ker{}_k\theta$ is induced by the natural evaluation map 
+\[\Hom_{\JJ_{d_j}}({}_kM_j,\JJ_{d_j})\otimes_{\JJ_{d_k}}{}_kM_j\otimes_{\JJ_{d_j}} V_j\to V_j.\]
+
+We usually drop the ${}^\pm$ from the notation and write both reflection functors as $\SS_k$, it should be clear from context which to use.
+ 
+For $k$ a source, write $\tilde\JJ-\mod\langle k\rangle$ for the full subcategory of $\tilde\JJ-\mod$ for which the map $\theta_k$ is injective.  
+Define $\tilde\JJ-\mod\langle k\rangle$ similarly when $k$ is a sink by requiring that ${}_k\theta$ be surjective.
+
+For a $\tilde\JJ$-module $V$ we write $\urank(V)=(\rank_{\JJ_{d_j}}\!V_j)_{j\in Q_0}$ for the \emph{rank vector} of $V$.
+\begin{proposition}\label{prop:reflection functors}\mbox{}
+  \begin{enumerate}
+    \item Let $k$ be a source or sink in $Q$.  The reflection functors $\SS_k$ restrict to exact equivalences of categories
+    \[\SS_k: \tilde\JJ-\mod\langle k\rangle\longleftrightarrow \mu_k\tilde\JJ-\mod\langle k\rangle:\SS_k.\]
+    \item Assume ${}_iM_j=\JJ_{d_i}\otimes_\FF \JJ_{d_j}$ for each $i\from j\in Q_1$.  Then for $V\in\tilde\JJ-\mod\langle k\rangle$ we have 
+    \[\urank\big(\SS_k(V)\big)=\begin{cases}\urank(V)+\left(\sum\limits_{i\from k\in Q_1}\dim V_i-\frank V_k\right)\alpha_k & \text{if $k$ is a source in $Q$;}\\\urank(V)+\left(\sum\limits_{k\from i\in Q_1}\dim V_i-\frank V_k\right)\alpha_k & \text{if $k$ is a sink in $Q$.}\end{cases}\]
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  By the snake lemma, a short exact sequence $0\to U\to V\to W\to 0$ in $\tilde\JJ-\mod\langle k\rangle$ produces a short exact sequence $0\to\SS_k(U)\to\SS_k(V)\to\SS_k(W)\to 0$.  The second claim is immediate from the definition of $\SS_k$.
+\end{proof}
+
+The next result will be useful in our setting when several reflection functors are to be applied sequentially.
+\begin{lemma}
+  Let ${}_iM_j=H_i\otimes_\FF H_j$.  Then $\Hom_{H_i}(\Hom_{H_j}({}_iM_j,H_j),H_i)$ is isomorphic to $\Hom_{H_j}(\Hom_{H_i}({}_iM_j,H_i),H_j)$ as $H_i$-$H_j$-bimodules \sayDR{We always have isomorphisms $\Hom_{H_j}({}_iM_j,H_j)\cong H_j\otimes_\FF D(H_i)$ and $\Hom_{H_i}({}_iM_j,H_i)\cong D(H_j)\otimes_\FF H_i$, so fixing the isomorphisms $\varphi_i$ and $\varphi_j$ below we really only need to do two mutations to return to the same bimodule.}.  In particular, $\mu_i\mu_j\tilde H\cong\mu_j\mu_i\tilde H$.
+\end{lemma}
+\begin{proof}
+  Begin by fixing an isomorphism $\varphi_i:H_i\stackrel{\sim}{\longrightarrow} D(H_i)=\Hom_\FF(H_i,\FF)$ of $H_i$-modules and an isomorphism $\varphi_j:H_j\stackrel{\sim}{\longrightarrow} D(H_j)=\Hom_\FF(H_j,\FF)$ of $H_j$-modules, these isomorphisms exist since $H_i$ and $H_j$ are self-injective \sayDR{Probably something slightly stronger needs to be stated but it will be true for these algebras}.  Using the definition of ${}_iM_j$ and the standard Hom-tensor adjunction, we have
+  \[\Hom_{H_i}(\Hom_{H_j}({}_iM_j,H_j),H_i)\cong\Hom_{H_i}(\Hom_\FF(H_i,H_j),H_i).\]
+  But $\Hom_\FF(H_i,H_j)\cong H_j\otimes_\FF D(H_i)$ as $H_j$-$H_i$-bimodules, so applying the Hom-tensor adjunction again and then the isomorphism $\varphi_i$ gives
+  \[\Hom_{H_i}(\Hom_\FF(H_i,H_j),H_i)\cong\Hom_\FF(H_j,\Hom_{H_i}(D(H_i),H_i))\cong\Hom_\FF(H_j,H_i).\]
+  Composing the isomorphisms above we obtain a natural isomorphism of $H_i$-$H_j$-bimodules
+  \begin{align*}
+    \Hom_{H_i}(\Hom_{H_j}({}_iM_j,H_j),H_i)&\stackrel{\sim}{\longrightarrow}\Hom_\FF(H_j,H_i)\\
+    \theta&\longmapsto\big[y_2\mapsto\theta(x\otimes y_1\mapsto y_2y_1\cdot\langle\varphi_i(1),x\rangle)\big].
+  \end{align*}
+  Similarly we have a natural isomorphism of $H_i$-$H_j$-bimodules
+  \begin{align*}
+    \Hom_{H_j}(\Hom_{H_i}({}_iM_j,H_i),H_j)&\stackrel{\sim}{\longrightarrow}\Hom_\FF(H_i,H_j)\\
+    \theta&\longmapsto\big[x_2\mapsto\theta(y\otimes x_1\mapsto \langle\varphi_j(1),y\rangle\cdot x_1x_2)\big].
+  \end{align*}
+  But then transposing and applying the isomorphisms $\varphi_i$ and $\varphi_j$ gives
+  \[\Hom_\FF(H_i,H_j)\cong\Hom_\FF(D(H_j),D(H_i))\cong\Hom_\FF(H_j,H_i).\]
+  Combining these isomorphisms completes the proof.
+\end{proof}
+
+
+\begin{lemma}\mbox{}
+  \begin{enumerate}
+    \item Let $V\in\tilde\JJ-\mod$ and choose complete admissible flags $V_{i,\bullet}\partition V_i$ for each $i\in Q_0$.  Then for $W=\SS_k V$ the reflection functor induces complete admissible flags $W_{i,\bullet}\partition W_i$ for each $i\in Q_0$.
+    \item If $E\subset V$ respects flags, then $\SS_k E\subset \SS_k V$ respects flags.
+  \end{enumerate}
+\end{lemma}
+
+For a $\tilde\JJ$-module $E$, write $\uiso(E)=([e_j E])_{j\in Q_0}\in\bigoplus_{j\in Q_0}\cK(\JJ_{d_j})$ for the \emph{isomorphism vector} of $E$, that is the components of $\uiso(E)$ record the isomorphism classes of the $\JJ_{d_j}$-modules associated to vertices $j\in Q_0$.  
+For a $\tilde\JJ$-module $V$ and $\ubfe=(\bfe_1,\ldots,\bfe_n)\in\bigoplus_{j\in Q_0}\cK(\JJ_{d_j})$ write $Gr_\ubfe(V)$ for the set of all submodules $E$ of $V$ with $\uiso(E)=\ubfe$.
+\begin{lemma}
+  For any $V$ and $\ubfe\in\bigoplus_{j\in Q_0}\cK(\JJ_{d_j})$, the set $Gr_\ubfe(V)$ is closed in $\prod\limits_{j\in Q_0} Gr_{\bfe_j}^{\JJ_{d_j}}(V_j)$.
+\end{lemma}
+\begin{proof}
+  The conditions determining a $\tilde\JJ$-submodule of $V$ give a closed subset of $\prod\limits_{j\in Q_0} Gr_{\bfe_j}^{\JJ_{d_j}}(V_j)$.
+\end{proof}
+Define the subset $\widetilde{Gr}_\ubfe(V)\subset Gr_\ubfe(V)$ to be a ``nice'' subset where components of subrepresentations supported at sinks and components of quotients supported at sources respect an appropriate flag condition...
+
+Let $\widetilde{Gr}^{\langle k\rangle}_\ubfe(V)\subset\widetilde{Gr}_\ubfe(V)$ denote the subset of all subrepresentations $E\subset V$ with $\uiso(E)=\ubfe$ and $E,V/E\in\rep^{\langle k\rangle}(\tilde\JJ)$.  
+The next result gives a precise count of the countributions to $\chi\big(\widetilde{Gr}_\ubfe(V)\big)$ coming from components of subrepresentations supported at a sink vertex.
+\begin{lemma}\label{le:sink recursion}
+  Suppose $k$ is a sink in $Q$.  Then for any locally free module $V\in\tilde\JJ-\mod\langle k\rangle$ and $\ubfe\in\bigoplus_{j\in Q_0}\cK(\JJ_{d_j})$ with $\ubfe\le\uiso(V)$ we have
+  \begin{equation}\label{eq:sink Grassmannian decomposition}
+    \chi\big(\widetilde{Gr}_\ubfe(V)\big)=\sum_{\bfr\in\cK(\JJ_{d_k}):\bfr\ge0}{\frank V_k-\rank\bfe_k+\rank\bfr\choose\bfr}\chi\big(\widetilde{Gr}^{\langle k\rangle}_{\ubfe-\bfr\alpha_k}(V)\big).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  Consider the map $\zeta:\widetilde{Gr}_\ubfe(V)\to\coprod\limits_{\bfr\in\cK(\JJ_{d_k}):\bfr\ge0} \widetilde{Gr}^{\langle k\rangle}_{\ubfe-\bfr\alpha_k}(V)$ given by $\zeta(E)=\bar{E}$, where $\bar{E}\subset V$ is the subrepresentation obtained from $E$ by replacing the $\JJ_{d_k}$-module $E_k$ at vertex $k$ with the image of the map ${}_k\theta$, see \eqref{eq:sink total map}.  Since vertex $k$ is a sink in $Q$, the map $\zeta$ is surjective.
+
+  Suppose $\bar{E}\subset V$ is an element of $\widetilde{Gr}_{\ubfe-\bfr\alpha_k}^{\langle k\rangle}(V)$.  
+  Write $\bar{E}_k\subset V_k$ for the component of $\bar{E}$ at vertex $k$.  
+  Let $T\subset V_k$ be maximal so that $\soc(T)=\soc(\bar{E}_k)$.  
+  Since all $\JJ_{d_k}$-modules are uniserial, we have $\bar{E}\subset T$ and that $T$ is uniquely determined inside $V_k$.  
+  Moreover, since $\bar{E}_k$ satisfies the rank condition with respect to the flag $V_{k,\bullet}$, $T$ will also satisfy the rank condition with respect to $V_{k,\bullet}$.  
+  Write $F_\bullet$ for the framing of $V_k/T$ induced by $V_{k,\bullet}$, see Lemma~\ref{le:induced flags}.  
+
+  Consider $E\subset V$ in the fiber of $\zeta$ over $\bar{E}$.  
+  By construction, $E$ gives rise to an injective map $\pi:E_k/\bar{E}_k\into V_k/\bar{E}_k\onto V_k/T$ whose image determines an element $R\in Gr_\bfr^{\JJ_{d_k}}(V_k/T,F_\bullet)$.  
+  Given a map $f\in\Hom_{\JJ_{d_k}}(R,T/\bar{E}_k)$, let $E^f\in\zeta^{-1}(\bar{E})$ be the subrepresentation of $V$ with component $E^f_k$ at vertex $k$ determined by
+  \[E^f_k/\bar{E}_k=\{x+f(\pi(x)):x\in E_k/\bar{E}_k\}.\]
+
+  Then the fiber of $\zeta$ over $\bar{E}$ can be identified with the vector bundle $X$ over $Gr_\bfr^{\JJ_{d_k}}(V_k/T,F_\bullet)$ whose fiber over $R$ is given by the affine space $\Hom_{\JJ_{d_k}}(R,T/\bar{E}_k)$.
+
+  Indeed, given a pair $(R,f)\in X$, define $E_{k,f}=\{(r,v):f(r)=\pi(v)\}$ via the following pullback diagram:
+  \[\begin{tikzcd}
+      0\arrow{r} & \bar{E}_k\arrow[hook]{r}\arrow{dd} & E_{k,f}\arrow{dd}\arrow[two heads]{r}\arrow[ddr, phantom, "\lrcorner", very near start] & R\arrow["f"]{d}\arrow{r} & 0\\
+       & & & T/\bar{E}_k\arrow[hook]{d} & \\
+      0\arrow{r} & \bar{E}_k\arrow[hook]{r} & V_k\arrow[two heads, "\pi"]{r}& V_k/\bar{E}_k\arrow{r} & 0
+    \end{tikzcd}\]
+
+
+  By definition and by Lemma~\ref{???} there exists a unique maximal $T\subset V_k$ with $\overline{E}_k\subset T$ and $\soc(T)=\soc(\overline{E}_k)$ such that $T$ satisfies the rank condition with respect to $V_{k,\bullet}$.  
+  Then there is an induced injective map $K\cong E_k/\overline{E}_k\to V_k/\overline{E}_k$.  
+
+
+  Then an element in the fiber of $\zeta$ over $\overline{E}$ is equivalent to the data of an $\JJ_{d_k}$-submodule 
+  \[(t^{d_k-1}R_k)^{\oplus k_1}\oplus(t^{d_k-2}R_k)^{\oplus k_2}\oplus\cdots\oplus R_k^{\oplus k_{d_k}}\subset\phi(V_k/E_k),\] 
+  where $\phi(V_k/E_k)$ denotes the maximal free summand of $V_k/E_k$, together with an $\JJ_{d_k}$-module morphism 
+  \[(t^{d_k-1}R_k)^{\oplus k_1}\oplus(t^{d_k-2}R_k)^{\oplus k_2}\oplus\cdots\oplus R_k^{\oplus k_{d_k}}\to\tau(V_k/E_k),\] 
+  where $\tau(V_k/E_k)$ denotes the maximal non-free summand in $V_k/E_k$.  By Lemma~\ref{le:Grothendieck quotients}, 
+  \[\frank(V_k/E_k)=\frank V_k-\rank\bfe_k+\rank\bfk\] 
+  and, by Corollary~\ref{cor:free Grassmannian Euler characteristics}, the Euler characteristic of the fiber over $\widetilde{Gr}_{\ubfe-\bfk\alpha_k}^{\langle k\rangle}(V)$ is exactly ${\frank V_k-\rank\bfe_k+\rank\bfk\choose\bfk}$.  The result follows.
+\end{proof}
+
+We now show how to extract components of quotient representations supported at a vertex which is a source.
+\begin{lemma}\label{le:source recursion}
+  Suppose $k$ is a source in $Q$.  Then for any locally free module $V\in\tilde\JJ\langle k\rangle$ and $\ubfe\in\bigoplus_{j\in Q_0}\cK(\JJ_{d_j})$ with $\ubfe\le\uiso(V)$ we have
+  \begin{equation}\label{eq:source Grassmannian decomposition}
+    \chi\big(\widetilde{Gr}_\ubfe(V)\big)=\sum_{\bfm\in\cK(\JJ_{d_k})}{\frank\bfe_k+\rank\bfm\choose\bfm}\chi\big(\widetilde{Gr}^{\langle k\rangle}_{\ubfe+(\rank(\bfm)\beta_{d_k})\alpha_k-\rev{\bfm}\alpha_k}(V)\big).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  The $\FF$-linear duality induces a functor $D:\tilde\JJ-\mod\to\tilde\JJ^{op}-\mod$.  The following equalities are immediate: 
+  \begin{align*} 
+    \chi\big(\widetilde{Gr}_\ubfe(V))
+    &=\chi\big(\widetilde{Gr}_{\uiso(V)/\ubfe}(DV)\big)\\
+    &=\sum_{\bfm\in\cK(\JJ_{d_j})}{\frank\bfe_k+\rank\bfm\choose\bfm}\chi\big(\widetilde{Gr}^{\langle k\rangle}_{\uiso(V)/\ubfe-\bfm\alpha_k}(DV)\big)\\
+    &=\sum_{\bfm\in\cK(\JJ_{d_j})}{\frank\bfe_k+\rank\bfm\choose\bfm}\chi\big(\widetilde{Gr}^{\langle k\rangle}_{\ubfe+(\rank(\bfm)\beta_{d_k})\alpha_k-\rev{\bfm}\alpha_k}(V)\big),
+  \end{align*}
+  where the second equality follows from Lemma~\ref{eq:sink Grassmannian decomposition} and the third equality follows from the identities 
+  \[\rank([V_k]/\bfe_k)=\rank V_k-\frank\bfe_k=\frank V_k-\frank\bfe_k\]
+  and $\uiso(V)/\big(\uiso(V)/\ubfe-\bfm\alpha_k\big)=\ubfe+(\rank(\bfm)\beta_{d_k})\alpha_k-\rev{\bfm}\alpha_k$ in Lemma~\ref{le:Grothendieck quotients}.
+\end{proof}
+
+%Define $x_V\in\FF[x_1^{\pm1},\ldots,x_n^{\pm1}]$ via
+%\[x_V=\sum\limits_{\ubfe\in\bigoplus_{j\in Q_0}\cK(H_j)}\chi\big(Gr_\ubfe(V)\big)x^{???}.\]
+
+\begin{example}
+  Let $Q=\circ\longrightarrow\circ$ with $d_1=d_2=3$.  Then $Q^{op}=\circ\longleftarrow\circ$.  Define locally free representations of $Q$ and $Q^{op}$ as follows
+  \begin{align*}
+    V'_3&=\JJ_3\longleftarrow0 && V_3=0\longrightarrow\JJ_3;\\
+    V'_4&=\JJ_3^3\longleftarrow\JJ_3 && V_4=\JJ_3\longrightarrow\JJ_3^3;\\
+    V'_5&=\JJ_3^8\longleftarrow\JJ_3^3 && V_5=\JJ_3^3\longrightarrow\JJ_3^8;\\
+    V'_6&=\JJ_3^{21}\longleftarrow\JJ_3^8 && V_5=\JJ_3^8\longrightarrow\JJ_3^{21}.
+  \end{align*}
+  Subrepresentations of $V_3$ look like
+  \[0\longrightarrow\JJ_3\qquad 0\longrightarrow\JJ_2\qquad 0\longrightarrow\JJ_1\qquad 0\longrightarrow0.\]
+  Subrepresentations of $V'_3$ look like
+  \[\JJ_3\longleftarrow0\qquad \JJ_2\longleftarrow0\qquad \JJ_1\longleftarrow0\qquad 0\longleftarrow0\]
+  which reflect to give the following subrepresentations of $V_4$:
+  \[\JJ_3\longrightarrow\JJ_3^3\qquad \JJ_2\longrightarrow\JJ_3^2\qquad \JJ_1\longrightarrow\JJ_3\qquad 0\longrightarrow0.\]
+  Similarly, the subrepresentations of $V_3$ reflect to give the following subrepresentations of $V'_4$:
+  \[\JJ_3^3\longleftarrow\JJ_3\qquad \JJ_3^2\longleftarrow\JJ_2\qquad \JJ_3\longleftarrow\JJ_1\qquad 0\longleftarrow0.\]
+  These in turn reflect to give the following subrepresentations of $V_5$:
+  \[\JJ_3^3\longrightarrow\JJ_3^8\qquad \JJ_3^2\longrightarrow\JJ_1\oplus\JJ_3^5\qquad \JJ_3\longrightarrow\JJ_2\oplus\JJ_3^2\qquad 0\longrightarrow0.\]
+  We obtain the following subrepresentations of $V_6$ similarly
+  \[\JJ_3^8\longrightarrow\JJ_3^{21}\qquad \JJ_1\oplus\JJ_3^5\longrightarrow\JJ_3^{14}\qquad \JJ_2\oplus\JJ_3^2\longrightarrow\JJ_3^7\qquad 0\longrightarrow0.\]
+\end{example}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rank 2 categorification}\label{sec:rank 2}
+Let $d_1,d_2>0$ be positive integers.  Consider rational functions $x_k\in\QQ(x_1,x_2)$ for $k\in\ZZ$ defined recursively by
+\begin{equation}\label{eq:exchange relation}
+  x_{k-1}x_{k+1}=\begin{cases}1+x_k+\cdots+x_k^{d_1} & \text{if $k$ is even;}\\1+x_k+\cdots+x_k^{d_2} & \text{if $k$ is odd.}\end{cases}
+\end{equation}
+While these functions, called generalized cluster variables, appear a priori to be mere rational functions the following remarkable theorem of Chekhov and Shapiro, which builds on prior work of Fomin and Zelevinsky \cite{fomin-zelevinsky1}, shows they are actually Laurent polynomials.
+\begin{theorem}\cite{chekhov-shapiro}
+  For any $k,m\in\ZZ$, we have $x_k\in\ZZ[x_m^{\pm1},x_{m+1}^{\pm1}]$.
+\end{theorem}
+Our goal will be to find a categorical interpretation for these Laurent expansions of the $x_k$.  A key observation is the following.
+
+\begin{lemma}\label{le:multinomial powers}
+  For any $k,n\in\ZZ$ with $n\ge0$, we have 
+  \begin{equation}\label{eq:multinomial powers}
+    x_{k-1}^nx_{k+1}^n=\sum\limits_{\bfk\in\cK(\JJ_{d_k})} {n\choose\bfk} x_k^{\dim\bfk}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  This follows by induction on $n$ using the exchange relation \eqref{eq:exchange relation} and Corollary~\ref{cor:multinomial recursions}.
+\end{proof}
+
+Let $Q=\xymatrix{\circ_1 & \ar[l] \circ_2}$ and set $H_1=\FF[t]/(t^{d_1})$, $H_2=\FF[t]/(t^{d_2})$, ${}_1M_2=H_1\otimes_\FF H_2$.  Then the definition of $\tilde H$ from Section~\ref{sec:jet species} reduces to the algebra 
+\[\tilde H=\left(\begin{array}{cc}H_1 & {}_1M_2\\ 0 & H_2\end{array}\right).\]  We claim that certain rigid indecomposable modules over $\tilde H$ can be used to compute the $x_k$. For $V\in\rep(\tilde H)$ and $z_1,z_2\in\QQ(x_1,x_2)$ define
+\begin{equation}\label{eq:cluster character}
+  x_V(z_1,z_2)=\sum_{\ubfe\in\cK(H_1)\oplus\cK(H_2)}\chi\big(\widetilde{Gr}_{\ubfe}(V)\big)z_1^{-\frank V_1+\dim\bfe_2}z_2^{-\frank V_2+\dim V_1-\dim\bfe_1}.
+\end{equation}
+Similarly, for $V\in\rep(\tilde H^{op})$ define
+\begin{equation}\label{eq:cluster character op}
+  x_V(z_1,z_2)=\sum_{\ubfe\in\cK(H_1)\oplus\cK(H_2)}\chi\big(\widetilde{Gr}_{\ubfe}(V)\big)z_1^{-\frank V_1+\dim V_2-\dim\bfe_2}z_2^{-\frank V_2+\dim\bfe_1}.
+\end{equation}
+Write $R'_1$ and $R'_2$ for the generalized simple modules for $\tilde H^{op}$.  For $k\in\ZZ\setminus\{1,2\}$, define $\tilde H$-modules $V_{(k)}$ and $\tilde H^{op}$-modules $V'_{(k)}$ recursively by 
+\[V_{(3)}=R_1,\quad V_{(0)}=R_2,\quad V'_{(3)}=R'_2,\quad V'_{(0)}=R'_1,\]
+and for $k\in\ZZ\setminus\{0,1,2,3\}$ by
+\begin{equation}\label{eq:preprojectives and postinjectives}
+  V_{(k)}=\begin{cases}\SS_1 V'_{(k-1)} & \text{if $k\ge4$;}\\\SS_2 V'_{(k+1)} & \text{if $k\le -1$;}\\\end{cases}
+  \qquad
+  V'_{(k)}=\begin{cases}\SS_2 V_{(k-1)} & \text{if $k\ge4$;}\\\SS_1 V_{(k+1)} & \text{if $k\le -1$.}\\\end{cases}
+\end{equation}
+
+The main result of this note is the following.
+\begin{theorem}\label{th:categorification}
+  For $k\in\ZZ\setminus\{1,2\}$, the variable $x_k$ is equal to $x_{V_{(k)}}(x_1,x_2)$.
+\end{theorem}
+
+The proof of Theorem~\ref{th:categorification} will proceed by induction, where the base case is given by the following easy observation.
+\begin{lemma}\label{le:induction base}
+  Theorem~\ref{th:categorification} holds for $k=0$ and $k=3$.
+\end{lemma}
+\begin{proof}
+  Indeed, the definitions immediately imply
+  \[x_3=x_{R_1}(x_1,x_2)\quad\text{and}\quad x_0=x_{R_2}(x_1,x_2),\]
+  since, e.g.\ $E_1$ has a unique subrepresentation of class $\beta_i$ for $1\le i\le d_1$ and these account for all subrepresentations.  
+\end{proof}
+\begin{remark}\label{rem:induction base}
+  It will be important to note that the symmetry of the exchange relations (or explicit calculation) implies
+  \[x_1=x_{E'_1}(x_3,x_2)\quad\text{and}\quad x_2=x_{E'_2}(x_1,x_0).\]
+\end{remark}
+
+The next two lemmas and the corollary they imply will provide the induction step for our argument.
+\begin{lemma}\label{le:reflection recursion 1}
+  Let $V=(V_1,V_2)$ be a locally free jet representation of $Q$ and write $\SS_1V=(V_3,V_2)$ for the jet representation of $Q^{op}$ obtained by reflecting $V$.  Then we have the following equality
+  \begin{align}\label{eq:reflection recursion 1}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2>0}}\sum\limits_{\bfe_1\in\cK(H_1)}\chi\big(\widetilde{Gr}^Q_{\bfe_1,\bfe_2}(V)\big)x_1^{-\frank V_1+\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1}\\
+    \nonumber
+    &\hspace{0in}=\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\rank V_3+\dim V_2-\dim\bff_2<0}}\sum\limits_{\bff_1\in\cK(H_1)}\chi\big(\widetilde{Gr}^{Q^{op}}_{\bff_1,\bff_2}(\SS_1 V)\big)x_3^{-\frank V_3+\dim V_2-\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1}
+  \end{align}
+\end{lemma}
+\begin{proof}
+  After expanding $x_1$ in terms of $x_2$ and $x_3$ using \eqref{eq:multinomial powers}, the left hand side of equation \eqref{eq:reflection recursion 1} becomes
+  \begin{align*}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2>0}}\sum\limits_{\bfe_1,\bfk\in\cK(H_1)}{-\frank V_1+\dim\bfe_2\choose\bfk}\chi\big(\widetilde{Gr}^Q_{\bfe_1,\bfe_2}(V)\big)\times\\
+    &\hspace{2.65in}\times x_3^{\frank V_1-\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1+\dim\bfk}.
+  \end{align*}
+  Then, using Lemma~\ref{le:sink recursion} to extract the components of subrepresentations supported on vertex 1, the expression above turns into
+  \begin{align*}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2>0}}\sum\limits_{\bfe_1,\bfk,\bfl\in\cK(H_1)}{-\frank V_1+\dim\bfe_2\choose\bfk}{\frank V_1-\rank\bfe_1+\rank\bfl\choose\bfl}\times\\
+    &\hspace{1.65in}\times\chi\big(\widetilde{Gr}^{Q\langle 1\rangle}_{\bfe_1-\bfl,\bfe_2}(V)\big) x_3^{\frank V_1-\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1+\dim\bfk}.
+  \end{align*}
+  Following Proposition~\ref{prop:reflection functors}, this allows to apply the reflection functor $\SS_1$ on subrepresentations in the Grassmannian and carefully track the result.  By Lemma~\ref{le:Grothendieck quotients} (1), we get
+  \begin{align*}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2>0}}\sum\limits_{\bfe_1,\bfk,\bfl\in\cK(H_1)}{-\frank V_1+\dim\bfe_2\choose\bfk}{\frank V_1-\rank\bfe_1+\rank\bfl\choose\bfl}\times\\
+    &\hspace{0.8in}\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{(\dim\bfe_2)\beta_{d_1}/(\bfe_1-\bfl),\bfe_2}(\SS_1 V)\big)x_3^{\frank V_1-\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1+\dim\bfk}\\
+    &=\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2>0}}\sum\limits_{\bfe_1,\bfk,\bfl\in\cK(H_1)}{-\frank V_1+\dim\bfe_2\choose\bfk}{\frank V_1-\rank\bfe_1+\rank\bfl\choose\bfl}\times\\
+    &\hspace{0.25in}\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{(\dim\bfe_2)\beta_{d_1}/\bfe_1+(\rank\bfl)\beta_{d_1}-\rev{\bfl},\bfe_2}(\SS_1 V)\big)x_3^{\frank V_1-\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1+\dim\bfk},
+  \end{align*}
+  where the last equality follows from Lemma~\ref{le:Grothendieck quotients} (2)(e).
+
+  By reindexing in the variable $\bfk$ (specifically, replacing it by $(\dim\bfe_2-\frank V_1)\beta_{d_1}/\bfk$, see Lemma~\ref{le:multinomial symmetry}) and applying Lemma~\ref{le:Grothendieck quotients} (2)(a), this translates to
+  \begin{align*}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2>0}}\sum\limits_{\bfe_1,\bfk,\bfl\in\cK(H_1)}{-\frank V_1+\dim\bfe_2\choose\bfk}{\frank V_1-\rank\bfe_1+\rank\bfl\choose\bfl}\times\\
+    &\hspace{0.15in}\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{(\dim\bfe_2)\beta_{d_1}/\bfe_1+(\rank\bfl)\beta_{d_1}-\rev{\bfl},\bfe_2}(\SS_1 V)\big)x_3^{\frank V_1-\dim\bfe_2}x_2^{-\frank V_2+d_1\dim\bfe_2-\dim\bfe_1-\dim\bfk}.
+  \end{align*}  
+  In order to simplify this, we make the substitutions 
+  \[\bff_1=(\dim\bfe_2)\beta_{d_1}/(\bfe_1+\bfk)\quad\text{and}\quad\bff_2=\bfe_2.\]
+  Note that 
+  \[\frank\bff_1=\dim\bff_2-\rank(\bfe_1)-\rank(\bfk)\quad\text{and}\quad\dim\bff_1=d_1\dim\bfe_2-\dim\bfe_1-\dim\bfk.\]
+  Also note, by Lemma~\ref{le:Grothendieck quotients}, we may rewrite $\bff_1$ as
+  \[\bff_1=(\dim\bfe_2)\beta_{d_1}/\bfe_1-(\rank\bfk)\beta_{d_1}+\rev{\bfk}.\]
+  Thus this substitution changes the above expression into
+  \begin{align*}
+    &\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_1+\dim\bff_2>0}}\sum\limits_{\bff_1,\bfk,\bfl\in\cK(H_1)}{-\frank V_1+\dim\bff_2\choose\bfk}{\frank V_1-\dim\bff_2+\frank\bff_1+\rank\bfk+\rank\bfl\choose\bfl}\times\\
+    &\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{\bff_1+(\rank\bfk)\beta_{d_1}+(\rank\bfl)\beta_{d_1}-\rev{\bfk}-\rev{\bfl},\bff_2}(\SS_1 V)\big)x_3^{\frank V_1-\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1}.
+  \end{align*}
+  Finally, we apply the multinomial identity of Corollary~\ref{cor:multinomial recursions} and incorporate the components of quotient representations supported at vertex $1$ using \eqref{eq:source Grassmannian decomposition}.  Then making the substitution $\frank V_3=\dim V_2-\frank V_1$ following Proposition~\ref{prop:reflection functors},
+  we get
+  \begin{align*}
+    &\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_1+\dim\bff_2>0}}\sum\limits_{\bff_1,\bfm\in\cK(H_1)}\sum\limits_{\substack{\bfk,\bfl\in\cK(H_1)\\\bfk+\bfl=\bfm}}{-\frank V_1+\dim\bff_2\choose\bfk}{\frank V_1-\dim\bff_2+\frank\bff_1+\rank\bfm\choose\bfl}\times\\
+    &\hspace{1in}\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{\bff_1+(\rank\bfm)\beta_{d_1}-\rev{\bfm},\bff_2}(\SS_1 V)\big) x_3^{\frank V_1-\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1}\\
+    &=\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_1+\dim\bff_2>0}}\sum\limits_{\bff_1,\bfm\in\cK(H_1)}{\frank\bff_1+\rank\bfm\choose\bfm}\times\\
+    &\hspace{1in}\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{\bff_1+(\rank\bfm)\beta_{d_1}-\rev{\bfm},\bff_2}(\SS_1 V)\big) x_3^{\frank V_1-\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1}\\
+    &=\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_3+\dim V_2-\dim\bff_2<0}}\sum\limits_{\bff_1\in\cK(H_1)}\chi\big(\widetilde{Gr}^{Q^{op}}_{\bff_1,\bff_2}(\SS_1 V)\big)x_3^{-\frank V_3+\dim V_2-\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1}.
+  \end{align*}
+  This establishes \eqref{eq:reflection recursion 1}.
+\end{proof}  
+ 
+\begin{lemma}\label{le:reflection recursion 2}
+  Let $V=(V_1,V_2)$ be a locally free jet representation of $Q$ and write $\SS_1V=(V_3,V_2)$ for the jet representation of $Q^{op}$ obtained by reflecting $V$ at vertex 1.  Then we have the following equality
+  \begin{align}\label{eq:reflection recursion 2}
+    &\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_3+\dim V_2-\dim\bff_2\ge0}}\sum\limits_{\bff_1\in\cK(H_1)}\chi\big(\widetilde{Gr}^{Q^{op}}_{\bff_1,\bff_2}(\SS_1 V)\big)x_3^{-\frank V_3+\dim V_2-\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1}\\
+    \nonumber
+    &\hspace{0.5in}=\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2\le0}}\sum\limits_{\bfe_1\in\cK(H_1)}\chi\big(\widetilde{Gr}^Q_{\bfe_1,\bfe_2}(V)\big)x_1^{-\frank V_1+\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1}
+  \end{align}
+\end{lemma}
+\begin{proof}
+  Expand $x_3$ in the summation on the left hand side of \eqref{eq:reflection recursion 2} using Lemma~\ref{le:multinomial powers} and $\frank V_3=\dim V_2-\frank V_1$ to get
+  \[\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_1+\dim\bff_2\le0}}\sum\limits_{\bff_1,\bfk\in\cK(H_1)}{\frank V_1-\dim\bff_2\choose\bfk}\chi\big(\widetilde{Gr}^{Q^{op}}_{\bff_1,\bff_2}(\SS_1 V)\big)x_1^{-\frank V_1+\dim\bff_2}x_2^{-\frank V_2+\dim\bff_1+\dim\bfk}.\]
+  Then reindexing in the variable $\bfk$ (i.e. replacing it by $(\rank V_1-\dim\bff_2)\beta_{d_1}/\bfk$, see Lemma~\ref{le:multinomial symmetry}) and using Lemma~\ref{le:source recursion} to extract the components of quotient representations supported at vertex $1$ gives
+  \begin{align*}
+    &\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_1+\dim\bff_2\le0}}\sum\limits_{\bff_1,\bfk,\bfl\in\cK(H_1)}{\frank V_1-\dim\bff_2\choose\bfk}{\frank\bff_1+\rank\bfl\choose\bfl}\times\\
+    &\hspace{0.5in}\times\chi\big(\widetilde{Gr}^{Q^{op}\langle 1\rangle}_{\bff_1+(\rank\bfl)\beta_{d_1}-\rev{\bfl},\bff_2}(\SS_1 V)\big) x_1^{-\frank V_1+\dim\bff_2}x_2^{-\frank V_2+\dim V_1+\dim\bff_1-d_1\dim\bff_2-\dim\bfk}
+  \end{align*}
+  Now apply the reflection functor $\SS_1$ in the Grassmannian to get
+  \begin{align*}
+    &\sum\limits_{\substack{\bff_2\in\cK(H_2)\\-\frank V_1+\dim\bff_2\le0}}\sum\limits_{\bff_1,\bfk,\bfl\in\cK(H_1)}{\frank V_1-\dim\bff_2\choose\bfk}{\frank\bff_1+\rank\bfl\choose\bfl}\times\\
+    &\times\chi\big(\widetilde{Gr}^{Q\langle 1\rangle}_{(\dim\bff_2)\beta_{d_1}/(\bff_1+(\rank\bfl)\beta_{d_1}-\rev{\bfl}),\bff_2}(V)\big) x_1^{-\frank V_1+\dim\bff_2}x_2^{-\frank V_2+\dim V_1+\dim\bff_1-d_1\dim\bff_2-\dim\bfk}.
+  \end{align*}
+  But, by applying Lemma~\ref{le:Grothendieck quotients} (2)(e) then (2)(d), the first index in the Grassmannian may be rewritten as
+  \begin{align*}
+    &(\dim\bff_2)\beta_{d_1}/\big(\bff_1+(\rank\bfl)\beta_{d_1}\big)+\rank(\rev{\bfl})\beta_{d_1}-\rev{(\rev{\bfl})}\\
+    &=(\dim\bff_2)\beta_{d_1}/\big(\bff_1+(\rank\bfl)\beta_{d_1}\big)+(\rank\bfl-\frank\bfl)\beta_{d_1}-\bfl+(\frank\bfl)\beta_{d_1}\\
+    &=(\dim\bff_2)\beta_{d_1}/\bff_1-\bfl.
+  \end{align*}
+  Then we make the substitution $\bfe_1=(\dim\bff_2)\beta_{d_1}/\bff_1+\bfk$ and $\bfe_2=\bff_2$.  Note that 
+  \[\rank\bfe_1=\dim\bfe_2-\frank\bff_1+\rank\bfk\quad\text{and}\quad\dim\bfe_1=d_1\dim\bff_2-\dim\bff_1+\dim\bfk,\]
+  so this substitution translates the summation above into the summation
+  \begin{align*}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2\le0}}\sum\limits_{\bfe_1,\bfk,\bfl\in\cK(H_1)}{\frank V_1-\dim\bfe_2\choose\bfk}{\dim\bfe_2-\rank\bfe_1+\rank\bfk+\rank\bfl\choose\bfl}\times\\
+    &\hspace{1.5in}\times\chi\big(\widetilde{Gr}^{Q\langle 1\rangle}_{\dim\bfe_1-\bfk-\bfl,\bfe_2}(V)\big) x_1^{-\frank V_1+\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1}.
+  \end{align*}
+  Finally, applying the multinomial identity of Corollary~\ref{cor:multinomial recursions} and incorporating the components of subrepresentations supported at vertex 1 using \eqref{eq:sink Grassmannian decomposition} gives
+  \begin{align*}
+    &\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2\le0}}\sum\limits_{\bfe_1,\bfm\in\cK(H_1)}\sum\limits_{\substack{\bfk,\bfl\in\cK(H_1)\\\bfk+\bfl=\bfm}}{\frank V_1-\dim\bfe_2\choose\bfk}{\dim\bfe_2-\rank\bfe_1+\rank\bfm\choose\bfl}\times\\
+    &\hspace{2in}\times\chi\big(\widetilde{Gr}^{Q\langle 1\rangle}_{\dim\bfe_1-\bfm,\bfe_2}(V)\big) x_1^{-\frank V_1+\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1}\\
+    &=\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2\le0}}\sum\limits_{\bfe_1,\bfm\in\cK(H_1)}{\frank V_1-\rank\bfe_1+\rank\bfm\choose\bfm}\times\\
+    &\hspace{2in}\times\chi\big(\widetilde{Gr}^{Q\langle 1\rangle}_{\dim\bfe_1-\bfm,\bfe_2}(V)\big) x_1^{-\frank V_1+\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1}\\
+    &=\sum\limits_{\substack{\bfe_2\in\cK(H_2)\\-\frank V_1+\dim\bfe_2\le0}}\sum\limits_{\bfe_1\in\cK(H_1)}\chi\big(\widetilde{Gr}^Q_{\dim\bfe_1,\bfe_2}(V)\big) x_1^{-\frank V_1+\dim\bfe_2}x_2^{-\frank V_2+\dim V_1-\dim\bfe_1},
+  \end{align*}
+  which establishes \eqref{eq:reflection recursion 2} as desired.
+\end{proof}
+Write $\mu_k:\QQ(x_k,x_{k+1})\to\QQ(x_{k+2},x_{k+1})$ for the homomorphism 
+\begin{equation}\label{eq:mutation}
+  x_{k+1}\mapsto x_{k+1}\qquad
+  x_k\mapsto\begin{cases}
+  \frac{1+x_{k+1}+x_{k+1}^2+\cdots+x_{k+1}^{d_1}}{x_{k+2}} & \text{if $k$ is odd;}\\
+  \frac{1+x_{k+1}+x_{k+1}^2+\cdots+x_{k+1}^{d_2}}{x_{k+2}} & \text{if $k$ is even.}\end{cases}
+\end{equation}
+Combining Lemmas~\ref{le:reflection recursion 1} and~\ref{le:reflection recursion 2} we get the following crucial result.
+\begin{corollary}\label{cor:cluster character dynamics}\mbox{}
+  \begin{enumerate}
+    \item Suppose $V\in\rep(\tilde H)$ is locally free.  For $k$ odd, we have $\mu_k\big(x_V(x_k,x_{k+1})\big)=x_{\SS_1 V}(x_{k+2},x_{k+1})$.
+    \item Suppose $V\in\rep(\tilde H^{op})$ is locally free.  For $k$ even, we have $\mu_k\big(x_V(x_{k+1},x_k)\big)=x_{\SS_2 V}(x_{k+1},x_{k+2})$.
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  The first claim is immediate from Lemmas~\ref{le:reflection recursion 1} and~\ref{le:reflection recursion 2} and the symmetry of the exchange relations \eqref{eq:exchange relation}.  The second claim follows from the first by the symmetry of the exchange relations.
+\end{proof}
+Now we may complete the proof of Theorem~\ref{th:categorification}.
+\begin{proof}[Proof of Theorem~\ref{th:categorification}]
+  We will prove the result for the case $k\ge3$, the proof for $k\le0$ being similar we omit it.  We have already seen in Lemma~\ref{le:induction base} and Remark~\ref{rem:induction base} that $x_3=x_{E_1}(x_1,x_2)$ and $x_2=x_{E'_2}(x_1,x_0)$.  It follows from the symmetry of \eqref{eq:exchange relation} that 
+  \[x_{k+1}=\begin{cases}x_{E_1}(x_{k-1},x_k) & \text{if $k\ge3$ is even;}\\ x_{E'_2}(x_k,x_{k-1}) & \text{if $k\ge3$ is odd.}\end{cases}\]
+  But then we may iteratively apply Corollary~\ref{cor:cluster character dynamics} and the definition \eqref{eq:preprojectives and postinjectives} of $V_{(k)}$, $V'_{(k)}$ to get $x_{k+1}=x_{V_{(k+1)}}(x_1,x_2)$ as desired.
+\end{proof}
+\begin{corollary}
+  For $k,m\in\ZZ$ with $k\ne m,m+1$, the variable $x_k$ is equal to $x_{V_{(k+1-m)}}(x_m,x_{m+1})$ if $m$ is odd and equal to $x_{V'_{(k+1-m)}}(x_{m+1},x_m)$ if $m$ is even.
+\end{corollary}
+
+\begin{thebibliography}{99}
+\bibitem[BMRRT06]{bmrrt}
+A. Buan, R. Marsh, I. Reiten, M. Reineke, G. Todorov, ``Tilting theory and cluster combinatorics.'' Adv. Math. \textbf{204} (2006), no. 2, pp.~572–-618.
+
+\bibitem[CC06]{caldero-chapoton}
+P. Caldero, F. Chapoton, ``Cluster algebras as Hall algebras of quiver representations.'' Comment. Math. Helv. \textbf{81} (2006), no. 3, pp.~595--616.
+
+\bibitem[CK06]{caldero-keller}
+P. Caldero, B. Keller, ``From triangulated categories to cluster algebras II.''  Ann. Sci. \'Ecole Norm. Sup. (4) \textbf{39} (2006), no. 6, pp.~983--1009.
+
+\bibitem[CS14]{chekhov-shapiro}
+L. Chekhov, M. Shapiro, ``Teichm\"uller spaces of Riemann surfaces with orbifold points of arbitrary order and cluster variables.'' Int. Math. Res. Not. (2014), no. 10, pp.~2746--2772.
+
+\bibitem[FST08]{fomin-shapiro-thurston}
+S. Fomin, M. Shapiro, and D. Thurston, ``Cluster algebras and triangulated surfaces. Part I: Cluster complexes.'' Acta Mathematica, 201:83-146, 2008.
+
+\bibitem[FZ99]{fomin-zelevinsky0}
+S. Fomin, A. Zelevinsky, ``Double Bruhat cells and total positivity.''  J. Amer. Math. Soc. \textbf{12} (1999), no. 2, pp.~335--380.
+
+\bibitem[FZ02]{fomin-zelevinsky1}
+S. Fomin, A. Zelevinsky, ``Cluster algebras I. Foundations.''  J. Amer. Math. Soc. \textbf{15} (2002), no. 2, pp.~497--529.
+
+\bibitem[GLS]{geiss-leclerc-schroer}
+C. Geiss, B. Leclerc, and J. Schr\"oer, ``Quivers with relations for symmetrizable Cartan matrices I: Foundations.'' 
+
+\bibitem[GSV03]{gekhtman-shapiro-vainshtein}
+M. Gekhtman, M. Shapiro, A. Vainshtein, ``Cluster algebras and Poisson geometry.'' Mosc. Math. J. \textbf{3} (2003), no. 3, pp.~899-–934.
+
+\bibitem[GSV16]{gekhtman-shapiro-vainshtein2}
+M. Gekhtman, M. Shapiro, A. Vainshtein, ``Drinfeld double of $GL_n$ and generalized cluster structures.''  Preprint: arXiv:1605.05705.
+
+\bibitem[IN14]{iwaki-nakanishi}
+K. Iwaki and T. Nakanishi, ``Exact WKB analysis and cluster algebras II: Simple poles, orbifold points, and generalized cluster algebras.'' Preprint: arXiv:1409.4641.
+
+\end{thebibliography}
+
+\end{document}
